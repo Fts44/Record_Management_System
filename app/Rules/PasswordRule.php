@@ -28,6 +28,7 @@ class PasswordRule implements Rule
     {
         $this->lengthPasses = (Str::length($value) >= 8);
         $this->uppercasePasses = (Str::lower($value) !== $value);
+        $this->lowercasePasses = (Str::upper($value) !== $value);
         $this->numericPasses = ((bool) preg_match('/[0-9]/', $value));
         $this->specialCharacterPasses = ((bool) preg_match('/[^A-Za-z0-9]/', $value));
 
@@ -41,11 +42,43 @@ class PasswordRule implements Rule
      */
     public function message()
     {
-        return "Password should contain at least 
-            <li>8 characters</li>
-            <li>1 upper case</li>
-            <li>1 lowercase</li>
-            <li>1 number</li>
-            <li>1 symbol</li>";
+        $error_msg = "Your password must contain";
+
+        if($this->lengthPasses){
+            $error_msg.="<span class='text-success'><br> &#x2714; 8 characters </span>";
+        }
+        else{
+            $error_msg.="<span class='text-danger'><br> &#x2716; 8 characters </span>";
+        }
+
+        if($this->uppercasePasses){
+            $error_msg.="<span class='text-success'><br> &#x2714; 1 upper case </span>";
+        }
+        else{
+            $error_msg.="<span class='text-danger'><br> &#x2716; 1 upper case </span>";
+        }
+
+        if($this->lowercasePasses){
+            $error_msg.="<span class='text-success'><br> &#x2714; 1 lower case </span>";
+        }
+        else{
+            $error_msg.="<span class='text-danger'><br> &#x2716; 1 lower case </span>";
+        }
+
+        if($this->numericPasses){
+            $error_msg.="<span class='text-success'><br> &#x2714; 1 number </span>";
+        }
+        else{
+            $error_msg.="<span class='text-danger'><br> &#x2716; 1 number </span>";
+        }
+
+        if($this->specialCharacterPasses){
+            $error_msg.="<span class='text-success'><br> &#x2714; 1 symbol </span>";
+        }
+        else{
+            $error_msg.="<span class='text-danger'><br> &#x2716; 1 symbol </span>";
+        }
+
+        return $error_msg;
     }
 }
