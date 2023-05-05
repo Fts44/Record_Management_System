@@ -1,5 +1,5 @@
 @charset "UTF-8";
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter|Braah+One:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 .filter-invert-white {
     filter: brightness(0) invert(1)
@@ -6072,7 +6072,7 @@ fieldset:disabled .btn {
     margin-right  : var(--bs-navbar-brand-margin-end);
     padding-bottom: var(--bs-navbar-brand-padding-y);
     padding-top   : var(--bs-navbar-brand-padding-y);
-    white-space   : nowrap
+    white-space   : normal;
 }
 
 .navbar-brand:focus,
@@ -6091,7 +6091,7 @@ fieldset:disabled .btn {
     flex-direction              : column;
     list-style                  : none;
     margin-bottom               : 0;
-    padding-left                : 0
+    padding-left                : 0;
 }
 
 .navbar-nav .nav-link.active,
@@ -6100,7 +6100,7 @@ fieldset:disabled .btn {
 }
 
 .navbar-nav .dropdown-menu {
-    position: static
+    position: static;
 }
 
 .navbar-text {
@@ -27058,11 +27058,11 @@ fieldset:disabled .btn {
 .navbar-vertical .navbar-brand {
     display     : block;
     margin-right: 0;
-    padding     : 1rem 1.5rem 1.5rem
+    padding     : 1rem 1.5rem .5rem;
 }
 
 .navbar-vertical .navbar-brand img {
-    height: 1.875rem
+    height: 1.875rem;
 }
 
 .navbar-vertical .navbar-heading {
@@ -27070,7 +27070,7 @@ fieldset:disabled .btn {
     font-size     : .75rem;
     font-weight   : 700;
     letter-spacing: .08rem;
-    padding       : 1rem 1.5rem;
+    padding       : .5rem 1.5rem;
     text-transform: uppercase
 }
 
@@ -28334,4 +28334,17 @@ div.code-toolbar>.toolbar>.toolbar-item>span:hover {
 /* my added css */
 .brand-logo {
     height: 100px;
+}
+
+.navbar-vertical .navbar-brand span {
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: 700;
+    font-family : Braah+One;
+    word-wrap: break-word;
+    text-transform: uppercase;
+} 
+
+.display-name {
+    width: 15rem;
 }
