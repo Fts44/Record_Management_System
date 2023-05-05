@@ -44,13 +44,6 @@ class PasswordRule implements Rule
     {
         $error_msg = "Your password must contain";
 
-        if($this->lengthPasses){
-            $error_msg.="<span class='text-success'><br> &#x2714; 8 characters </span>";
-        }
-        else{
-            $error_msg.="<span class='text-danger'><br> &#x2716; 8 characters </span>";
-        }
-
         if($this->uppercasePasses){
             $error_msg.="<span class='text-success'><br> &#x2714; 1 upper case </span>";
         }
@@ -77,6 +70,13 @@ class PasswordRule implements Rule
         }
         else{
             $error_msg.="<span class='text-danger'><br> &#x2716; 1 symbol </span>";
+        }
+
+        if($this->lengthPasses){
+            $error_msg.="<span class='text-success'><br> &#x2714; 8 characters </span>";
+        }
+        else{
+            $error_msg.="<span class='text-danger'><br> &#x2716; 8 characters </span>";
         }
 
         return $error_msg;
