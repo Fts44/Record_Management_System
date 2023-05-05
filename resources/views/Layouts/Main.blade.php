@@ -26,14 +26,13 @@
   <body class="bg-light"> 
     <div id="db-wrapper">
       <!-- Sidebar -->
-      @include('Components.Admin.Sidebar')
+      @stack('Sidebar')
       
       <!-- page content -->
       <div id="page-content">
-        @include('Components.Admin.Header')
+        @stack('Header')
 
         @yield('Content')
-        
       </div>
     </div>
 
@@ -52,6 +51,14 @@
     <!-- Theme JS -->
     <script src="{{ asset('assets/js/theme.min.js') }}"></script>
 
+    <!-- swal -->
+    <script src="{{ asset('assets/js/sweetalert.min.js') }}"></script>
+
+    <!-- Theme JS -->
+    <script src="{{ asset('assets/js/theme.min.js') }}"></script>
+
+    <!-- function js -->
+    <script src="{{ asset('assets/js/functions.js') }}"></script>
     @stack('scripts')
   </body>
 
