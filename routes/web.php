@@ -29,7 +29,7 @@ Route::name('Authentication.')->prefix('/')->middleware([])->group(function(){
 Route::name('Main.')->prefix('/main')->middleware([])->group(function(){
     Route::name('Patient.')->prefix('/patient')->group(function(){
         Route::get('/', function(){
-            echo 'patient';
+            return view('Main.Admin.Dashboard');
         })->name('Index');
     });
 
