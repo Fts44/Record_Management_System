@@ -54,12 +54,9 @@
     <!-- swal -->
     <script src="{{ asset('assets/js/sweetalert.min.js') }}"></script>
 
-    <!-- Theme JS -->
-    <script src="{{ asset('assets/js/theme.min.js') }}"></script>
-
     <!-- function js -->
     <script src="{{ asset('assets/js/functions.js') }}"></script>
-    @stack('scripts')
+    @stack('script')
   </body>
 
 </html>
