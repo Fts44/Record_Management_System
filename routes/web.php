@@ -29,7 +29,7 @@ Route::name('Authentication.')->prefix('/')->middleware([])->group(function(){
 Route::name('Main.')->prefix('/main')->middleware([])->group(function(){
     Route::name('Patient.')->prefix('/patient')->group(function(){
         Route::get('/', function(){
-            return view('Main.Sample.Dashboard');
+            echo 'patient';
         })->name('Index');
     });
 
@@ -46,8 +46,16 @@ Route::name('Main.')->prefix('/main')->middleware([])->group(function(){
     });
 
     Route::name('Admin.')->prefix('/admin')->group(function(){
+        Route::name('Accounts.')->prefix('/accounts')->group(function(){
+            Route::name('Unverified.')->prefix('/unverified')->group(function(){
+                Route::get('/', function(){
+                    return view('Main.Admin.Accounts.Unverified');
+                })->name('Index');
+            });
+        });
+
         Route::get('/', function(){
-            echo 'admin';
+            return redirect()->route('Main.Admin.Accounts.Unverified.Index');
         })->name('Index');
     });
 });
