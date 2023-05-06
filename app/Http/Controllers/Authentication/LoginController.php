@@ -62,21 +62,21 @@ class LoginController extends Controller
 
                         $redirect_to = '';
 
-                        switch($acc->pi_position) {
-                            case('admin'):
-                                $redirect_to = route('Main.Admin.Index');
-                                break;
-                 
-                            case('nurse'):
-                                $redirect_to = route('Main.Nurse.Index');
-                                break;
+                        if($acc->acc_type == 'standar'){
 
-                            case('doctor'):
-                                $redirect_to = route('Main.Doctor.Index');
-                                break;
-                 
-                            default:
-                                $redirect_to = route('Main.Patient.Index');
+                            switch($acc->pi_position) {
+                                case('nurse'):
+                                    $redirect_to = route('Main.Nurse.Index');
+                                    break;
+                                case('doctor'):
+                                    $redirect_to = route('Main.Doctor.Index');
+                                    break;
+                                default:
+                                    $redirect_to = route('Main.Patient.Index');
+                            }
+                        }
+                        else{
+                            $redirect_to = route('Main.Admin.Index');
                         }
 
                         $response = [
