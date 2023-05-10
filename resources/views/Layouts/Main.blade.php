@@ -57,12 +57,20 @@
     <!-- swal -->
     <script src="{{ asset('assets/js/sweetalert.min.js') }}"></script>
 
-    <!-- function js -->
-    <script src="{{ asset('assets/js/functions.js') }}"></script>
-
+    <!-- dataTables -->
     <script src="{{ asset('assets/libs/dataTables/dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/libs/dataTables/bootstrap5.min.js') }}"></script>
+
+    <!-- function js -->
+    <script src="{{ asset('assets/js/functions.js') }}"></script>
+    <script src="{{ asset('assets/js/dataTables.js') }}"></script>
+
+    <script>
+      $('#nav-toggle').click(function(){ setTimeout(function() { redraw_datatable_class('.table') }, 225);
+      });
+    </script>
     @stack('script')
+
   </body>
 
 </html>
