@@ -18,6 +18,9 @@
     <!-- Theme CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/theme.min.css') }}">
 
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+
     <title>
         @stack('title')
     </title>
@@ -56,6 +59,9 @@
 
     <!-- function js -->
     <script src="{{ asset('assets/js/functions.js') }}"></script>
+
+    <script src="{{ asset('assets/libs/dataTables/dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/dataTables/bootstrap5.min.js') }}"></script>
     @stack('script')
   </body>
 
