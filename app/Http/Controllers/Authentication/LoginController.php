@@ -100,8 +100,8 @@ class LoginController extends Controller
                 else{
                     $response = [
                         'title' => 'Warning!',
-                        'message' => 'Only verified patients can login!',
-                        'icon' => 'info',
+                        'message' => 'Incorrect password!',
+                        'icon' => 'warning',
                         'status' => 400,
                         'errors' => ['password' => 'The password is incorrect.']
                     ];
