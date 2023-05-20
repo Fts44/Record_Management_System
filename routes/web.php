@@ -26,6 +26,9 @@ Route::name('Authentication.')->prefix('/')->middleware([])->group(function(){
     });
 });
 
+use App\Http\Controllers\Admin\Accounts\DataController as AccountsDataController;
+use App\Http\Controllers\Admin\Accounts\UnverifiedController;
+
 Route::name('Main.')->prefix('/main')->middleware([])->group(function(){
     Route::name('Patient.')->prefix('/patient')->group(function(){
         Route::get('/', function(){
@@ -47,10 +50,15 @@ Route::name('Main.')->prefix('/main')->middleware([])->group(function(){
 
     Route::name('Admin.')->prefix('/admin')->group(function(){
         Route::name('Accounts.')->prefix('/accounts')->group(function(){
+            
+            Route::name('Data.')->prefix('/data')->group(function(){
+                Route::get('/', [AccountsDataController::class, 'index'])->name('Index');
+                Route::put('update/{acc_id}', [AccountsDataController::class, 'update'])->name('Update');
+                Route::delete('delete/{acc_id}', [AccountsDataController::class, 'delete'])->name('Delete');
+            });
+
             Route::name('Unverified.')->prefix('/unverified')->group(function(){
-                Route::get('/', function(){
-                    return view('Main.Admin.Accounts.Unverified');
-                })->name('Index');
+                Route::get('/', [UnverifiedController::class, 'index'])->name('Index');
             });
         });
 

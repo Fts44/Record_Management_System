@@ -11,7 +11,7 @@
 @section('Content')
     <!-- Content -->
     <!-- Container fluid -->
-    <div class="container-fluid p-6">
+    <div class="container-fluid p-5">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-12">
                 <!-- Page header -->
@@ -22,30 +22,28 @@
         </div>
 
         <div class="row">
+            <div class="col-l2 mb-2" id="live-alert">
+
+            </div>
+        </div>
+
+        <div class="row">
             <div class="col-12 mb-5">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center border-0">
                         <span></span>
-                        <button class="btn btn-primary">+ Add</button>
+                        <button class="btn btn-primary btn-sm" id="test">+ Add</button>
                     </div>
                     <div class="card-body">
-                        <table id="datatable" class="table table-bordered" style="width: 100%;">
+                        <table id="table_unverified" class="table table-responsive" style="width: 100%;">
                             <thead class="table-light">
                                 <th scope="col">ID</th>
-                                <th scope="col">Description</th>
-                                <th scope="col">Qty</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Classification</th>
+                                <th scope="col">Data Created</th>
+                                <th scope="col">Action</th>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>test</td>
-                                    <td>test</td>
-                                    <td>test</td>
-                                </tr>
-                                <tr>
-                                    <td>tes123t</td>
-                                    <td>tes123t</td>
-                                    <td>te123sst</td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -59,7 +57,84 @@
 @push('script')
     <script>
         $(document).ready(function () {
-            $('#datatable').DataTable();
+            table = $('#table_unverified').DataTable({
+                ajax: {
+                    url: "{{ route('Main.Admin.Accounts.Data.Index') }}",
+                    dataSrc: "data",
+                },
+                order: [[0, 'desc']],
+                responsive: true,
+                scrollX: true,
+                columns: [
+                    { data: 'acc_id' },
+                    { data: 'acc_email' },
+                    { data: 'acc_classification' },
+                    { data: 'acc_created_date' },
+                    { data: 'action' },
+                ],
+            });
         });
+
+        function accept(btn_id, acc_id){
+
+            var url = "{{ route('Main.Admin.Accounts.Data.Update', ['acc_id' => '%acc_id%']) }}".replace('%acc_id%', acc_id);
+            load_btn(btn_id, true);
+
+            $.ajax({
+                type: "PUT",
+                url: url,
+                data : { 
+                    _token: "{{ csrf_token() }}" 
+                },
+                enctype: 'multipart/form-data',
+                success: function(response){
+                    response = JSON.parse(response);
+                    console.log(response);
+                    table.ajax.reload();
+                    alert_show(response.icon, response.message);
+                },
+                error: function(response){
+                    console.log(response);
+                }
+            }).always(function(){
+                load_btn(btn_id,false);
+            });
+        }
+
+        function remove(btn_id, acc_id){
+            id = leftPad(acc_id, 5);
+            swal({
+                title: "Are you sure?",
+                text: `Your about to delete the acc no.${id}!`,
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    var url = "{{ route('Main.Admin.Accounts.Data.Delete', ['acc_id' => '%acc_id%']) }}".replace('%acc_id%', acc_id);
+                    load_btn(btn_id, true);
+
+                    $.ajax({
+                        type: "DELETE",
+                        url: url,
+                        data : { 
+                            _token: "{{ csrf_token() }}" 
+                        },
+                        enctype: 'multipart/form-data',
+                        success: function(response){
+                            response = JSON.parse(response);
+                            console.log(response);
+                            table.ajax.reload();
+                            alert_show(response.icon, response.message);
+                        },
+                        error: function(response){
+                            console.log(response);
+                        }
+                    }).always(function(){
+                        load_btn(btn_id,false);
+                    });
+                } 
+            });
+        }
     </script>
 @endpush
