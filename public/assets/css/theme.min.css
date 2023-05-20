@@ -1,5 +1,5 @@
 @charset "UTF-8";
-@import url("https://fonts.googleapis.com/css2?family=Inter|Braah+One:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&Braah+One:wght@100;200;300;400;500;600;700;800;900&family=Fredoka:wght@300;400;500;600;700&&family=Nunito:wght@400;500;600;700;display=swap");
 
 .filter-invert-white {
     filter: brightness(0) invert(1)
@@ -28340,7 +28340,8 @@ div.code-toolbar>.toolbar>.toolbar-item>span:hover {
     color: #fff;
     font-size: 1.5rem;
     font-weight: 700;
-    font-family : Braah+One;
+    font-family : Fredoka;
+    font-weight: 600;
     word-wrap: break-word;
     text-transform: uppercase;
 } 
@@ -28348,3 +28349,19 @@ div.code-toolbar>.toolbar>.toolbar-item>span:hover {
 .display-name {
     width: 15rem;
 }
+
+/* =============================
+    dataTables
+============================= */
+th, table tr td {
+    white-space: nowrap;
+}
+
+.dataTables_length, .dataTables_filter {
+    margin-bottom: 10px;
+}
+
+table tr td .btn {
+    min-width: 5rem;
+}
+
