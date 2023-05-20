@@ -43,6 +43,42 @@ function toast(title, message, icon){
     });
 }
 
+function alert_show(icon, message, type){
+    $('#live-alert').html("");
+
+    switch(icon) {
+        case 'success':
+            icon = '<i class="bi bi-check-circle-fill"></i>';
+            type = "success";
+            break;
+        case 'error':
+            icon = '<i class="bi bi-x-circle-fill"></i>';
+            type = "danger";
+            break;
+        case 'warning':
+            icon = '<i class="bi bi-exclamation-circle-fill"></i>';
+            type = "warning";
+            break;
+        default:
+            icon = '<i class="bi bi-question-circle-fill"></i>';
+            type = "primary";
+            break;
+    }
+
+    const wrapper = document.createElement('div');
+
+    wrapper.innerHTML = [
+        `<div class="alert alert-${type} alert-dismissible" role="alert" id="alert">`,
+        `   <div>${icon} ${message}</div>`,
+        '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+        '</div>'
+    ].join('')
+
+    $('#live-alert').append(wrapper);
+
+    setTimeout(function(){$('.alert').alert('close')}, 5000);
+}
+
 function reset_input_errors(){
     $('.invalid-feedback').html('');
     $('.form-select, .form-control').removeClass('is-invalid');
@@ -62,6 +98,14 @@ function ucwords(str){
     	return letter.toUpperCase();
 	});
 	return result;
+}
+
+function leftPad(number, targetLength) {
+    var output = number + '';
+    while (output.length < targetLength) {
+        output = '0' + output;
+    }
+    return output;
 }
 
 function set_municipality(select_mun, mun_code, prov_code, select_brgy){
