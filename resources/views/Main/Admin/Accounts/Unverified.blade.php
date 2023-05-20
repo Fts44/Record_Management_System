@@ -31,9 +31,9 @@
             <div class="col-12 mb-5">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center border-0">
-                        <span></span>
-                        <button class="btn btn-primary btn-sm" id="test">+ Add</button>
+                        <!-- <button class="btn btn-primary btn-sm" id="test">+ Add</button> -->
                     </div>
+
                     <div class="card-body">
                         <table id="table_unverified" class="table table-responsive" style="width: 100%;">
                             <thead class="table-light">
