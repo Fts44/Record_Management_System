@@ -66,8 +66,10 @@
     <script src="{{ asset('assets/js/dataTables.js') }}"></script>
 
     <script>
-      $('#nav-toggle').click(function(){ setTimeout(function() { redraw_datatable_class('.table') }, 225);
-      });
+
+      // redraw the table when the toggle button is click
+      $('#nav-toggle').click(function(){ setTimeout(function() { redraw_datatable_class('.table') }, 225);});
+      
     </script>
     @stack('script')
 
