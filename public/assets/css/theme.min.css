@@ -28350,6 +28350,9 @@ div.code-toolbar>.toolbar>.toolbar-item>span:hover {
     width: 15rem;
 }
 
+.card-header {
+    min-height: 3rem;
+}
 /* =============================
     dataTables
 ============================= */
