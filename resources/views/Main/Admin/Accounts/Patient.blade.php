@@ -45,7 +45,7 @@
                                 <th scope="col">College</th>
                                 <th scope="col">Program</th>
                                 <th scope="col">Year Level</th>
-                                <th scope="col">Classification</th>
+                                <th scope="col">Position</th>
                                 <th scope="col">Join Date</th>
                                 <th scope="col">Action</th>
                             </thead>
@@ -80,7 +80,7 @@
                     { data: 'acc_department' },
                     { data: 'acc_program' },
                     { data: 'acc_year_level' },
-                    { data: 'acc_classification' },
+                    { data: 'acc_position' },
                     { data: 'acc_join_date' },
                     { data: 'action' }
                 ],
