@@ -31,7 +31,8 @@
             <div class="col-12 mb-5">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center border-0">
-                        <!-- <button class="btn btn-primary btn-sm" id="test">+ Add</button> -->
+                        <span></span>
+                        <button class="btn btn-secondary btn-sm" id="table_unverified_refresh"><i class="bi bi-arrow-clockwise"></i> Refresh</button>
                     </div>
 
                     <div class="card-body">
@@ -39,6 +40,7 @@
                             <thead class="table-light">
                                 <th scope="col">ID</th>
                                 <th scope="col">Email</th>
+                                <th scope="col">Position</th>
                                 <th scope="col">Classification</th>
                                 <th scope="col">Data Created</th>
                                 <th scope="col">Action</th>
@@ -59,7 +61,8 @@
         $(document).ready(function () {
             table = $('#table_unverified').DataTable({
                 ajax: {
-                    url: "{{ route('Main.Admin.Accounts.Data.Index') }}",
+                    url: "{{ route('Admin.Accounts.Unverified.Data.Index') }}",
+                    async : false,
                     dataSrc: "data",
                 },
                 order: [[0, 'desc']],
@@ -68,16 +71,21 @@
                 columns: [
                     { data: 'acc_id' },
                     { data: 'acc_email' },
+                    { data: 'acc_position' },
                     { data: 'acc_classification' },
                     { data: 'acc_created_date' },
                     { data: 'action' },
                 ],
             });
+
+            $('#table_unverified_refresh').click(function(){
+                table.ajax.reload( alert_show('success', 'Table data refresh!'), false);           
+            });
         });
 
         function accept(btn_id, acc_id){
 
-            var url = "{{ route('Main.Admin.Accounts.Data.Update', ['acc_id' => '%acc_id%']) }}".replace('%acc_id%', acc_id);
+            var url = "{{ route('Admin.Accounts.Unverified.Data.Update', ['acc_id' => '%acc_id%']) }}".replace('%acc_id%', acc_id);
             load_btn(btn_id, true);
 
             $.ajax({
@@ -90,8 +98,7 @@
                 success: function(response){
                     response = JSON.parse(response);
                     console.log(response);
-                    table.ajax.reload();
-                    alert_show(response.icon, response.message);
+                    table.ajax.reload(alert_show(response.icon, response.message), false);
                 },
                 error: function(response){
                     console.log(response);
@@ -111,7 +118,7 @@
                 dangerMode: true,
             }).then((willDelete) => {
                 if (willDelete) {
-                    var url = "{{ route('Main.Admin.Accounts.Data.Delete', ['acc_id' => '%acc_id%']) }}".replace('%acc_id%', acc_id);
+                    var url = "{{ route('Admin.Accounts.Unverified.Data.Delete', ['acc_id' => '%acc_id%']) }}".replace('%acc_id%', acc_id);
                     load_btn(btn_id, true);
 
                     $.ajax({
@@ -124,8 +131,7 @@
                         success: function(response){
                             response = JSON.parse(response);
                             console.log(response);
-                            table.ajax.reload();
-                            alert_show(response.icon, response.message);
+                            table.ajax.reload(alert_show(response.icon, response.message), false);                          
                         },
                         error: function(response){
                             console.log(response);
