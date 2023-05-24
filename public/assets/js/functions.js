@@ -76,7 +76,11 @@ function alert_show(icon, message, type){
 
     $('#live-alert').append(wrapper);
 
-    setTimeout(function(){$('.alert').alert('close')}, 5000);
+    setTimeout(function() {
+        $("#alert").fadeTo(1000, 500).slideUp(500, function(){
+            $("#alert").alert('close');
+        });
+    }, 3000);
 }
 
 function reset_input_errors(){
