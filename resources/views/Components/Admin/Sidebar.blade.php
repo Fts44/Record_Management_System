@@ -22,20 +22,26 @@
             </li>  
 
             <li class="nav-item">
-                <a class="nav-link" href="#">
+            <a class="nav-link {{(str_contains(url()->current(),route('Admin.Accounts.Patient.Index')) ) ? 'active' : ''}}"" href="{{ route('Admin.Accounts.Patient.Index') }}">
                     <i class="nav-icon icon-xs me-2 bi bi-person"></i> Patient
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link {{(str_contains(url()->current(),route('Admin.Accounts.Employee.Index')) ) ? 'active' : ''}}"" href="{{ route('Admin.Accounts.Employee.Index') }}">
                     <i class="nav-icon icon-xs me-2 bi bi-people"></i> Employee
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link active" href="#">
+                <a class="nav-link {{(str_contains(url()->current(),route('Admin.Accounts.Unverified.Index')) ) ? 'active' : ''}}" href="{{ route('Admin.Accounts.Unverified.Index') }}">
                     <i class="nav-icon icon-xs me-2 bi bi-person-exclamation"></i> Unverified
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link {{(str_contains(url()->current(),route('Admin.Accounts.Blocked.Index')) ) ? 'active' : ''}}" href="{{ route('Admin.Accounts.Blocked.Index') }}">
+                    <i class="nav-icon icon-xs me-2 bi bi-person-x"></i> Blocked
                 </a>
             </li>
 

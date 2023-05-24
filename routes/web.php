@@ -27,9 +27,12 @@ Route::name('Authentication.')->prefix('/')->middleware([])->group(function(){
 });
 
 use App\Http\Controllers\Admin\Accounts\DataController as AccountsDataController;
+use App\Http\Controllers\Admin\Accounts\PatientController;
+use App\Http\Controllers\Admin\Accounts\EmployeeController;
 use App\Http\Controllers\Admin\Accounts\UnverifiedController;
+use App\Http\Controllers\Admin\Accounts\BlockedController;
 
-Route::name('Main.')->prefix('/main')->middleware([])->group(function(){
+Route::prefix('/main')->middleware([])->group(function(){
     Route::name('Patient.')->prefix('/patient')->group(function(){
         Route::get('/', function(){
             echo 'patient';
@@ -50,15 +53,29 @@ Route::name('Main.')->prefix('/main')->middleware([])->group(function(){
 
     Route::name('Admin.')->prefix('/admin')->group(function(){
         Route::name('Accounts.')->prefix('/accounts')->group(function(){
-            
-            Route::name('Data.')->prefix('/data')->group(function(){
-                Route::get('/', [AccountsDataController::class, 'index'])->name('Index');
-                Route::put('update/{acc_id}', [AccountsDataController::class, 'update'])->name('Update');
-                Route::delete('delete/{acc_id}', [AccountsDataController::class, 'delete'])->name('Delete');
+            Route::name('Patient.')->prefix('/patient')->group(function(){
+                Route::get('/', [PatientController::class, 'index'])->name('Index');
+                Route::get('/list', [PatientController::class, 'get_patient_list'])->name('Data.Index');
             });
 
             Route::name('Unverified.')->prefix('/unverified')->group(function(){
                 Route::get('/', [UnverifiedController::class, 'index'])->name('Index');
+                Route::get('/list', [UnverifiedController::class, 'get_unverified_list'])->name('Data.Index');
+                Route::put('update/{acc_id}', [UnverifiedController::class, 'update'])->name('Data.Update');
+                Route::delete('delete/{acc_id}', [UnverifiedController::class, 'delete'])->name('Data.Delete');
+            });
+
+            Route::name('Employee.')->prefix('/employee')->group(function(){
+                Route::get('/', [EmployeeController::class, 'index'])->name('Index');
+                Route::get('/list', [EmployeeController::class, 'get_employee_list'])->name('Data.Index');
+                Route::get('/view/{acc_id}', [EmployeeController::class, 'view'])->name('Data.View');
+                Route::put('/block/{acc_id}', [EmployeeController::class, 'block'])->name('Data.Block');
+            });
+
+            Route::name('Blocked.')->prefix('/blocked')->group(function(){
+                Route::get('/', [BlockedController::class, 'index'])->name('Index');
+                Route::get('/list', [BlockedController::class, 'get_blocked_list'])->name('Data.Index');
+                Route::put('/unblock/{acc_id}', [BlockedController::class, 'unblock'])->name('Data.Unblock');
             });
         });
 
