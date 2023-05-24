@@ -28332,6 +28332,10 @@ div.code-toolbar>.toolbar>.toolbar-item>span:hover {
 }
 
 /* my added css */
+button label {
+    cursor: pointer;
+}
+
 .brand-logo {
     height: 100px;
 }
@@ -28367,4 +28371,12 @@ th, table tr td {
 table tr td .btn {
     min-width: 5rem;
 }
+
+table img {
+    height: 4rem;
+}
+
+/* table td:has(img){
+   text-align: center;
+} */
 
