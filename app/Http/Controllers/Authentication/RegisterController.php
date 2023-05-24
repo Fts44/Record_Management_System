@@ -30,8 +30,8 @@ class RegisterController extends Controller
             'email' => ['required', 'email', 'unique:personal_information,pi_personal_email', 'unique:personal_information,pi_gsuite_email'],
             'password' => ['required', 'max:20', new PasswordRule],
             'confirm_password' => ['required', 'max:20', 'same:password'],
-            'classification' => ['required', 'in:student,teacher,school personnel,infirmary personnel'],
-            'position' => ['required_if:classification,==,infirmary personnel', 'in:,nurse,doctor,dentist']
+            'classification' => ['required', 'in:patient,infirmary personnel'],
+            'position' => ['in:,nurse,doctor,dentist,student,teacher,school personnel']
         ];
 
         $messages = [];
@@ -64,7 +64,7 @@ class RegisterController extends Controller
            
             if(str_contains($request->email, "@g.batstate-u.edu.ph")){
                 $personal_info->pi_gsuite_email = $request->email;
-                $acc->acc_is_verified = ($request->position==null) ? true : false;
+                $acc->acc_is_verified = ($request->classification=="patient") ? true : false;
             }
             else{
                 $personal_info->pi_personal_email = $request->email;

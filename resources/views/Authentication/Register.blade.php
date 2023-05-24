@@ -43,27 +43,22 @@
            
         </div>
 
-        <!-- classification -->
-        <div class="mb-3">
+         <!-- classification -->
+         <div class="mb-3">
             <label for="register_input_classification" class="form-label">Classification</label>
             <select name="classification" id="register_input_classification" class="form-select">
                 <option value="">--- choose ---</option>
-                <option value="student">Student</option>
-                <option value="teacher">Teacher</option>
-                <option value="school personnel">School Personnel</option>
+                <option value="patient">Patient</option>
                 <option value="infirmary personnel">Infirmary Personnel</option>
             </select>
             <span class="mt-1 invalid-feedback" id="register_input_classification_error"></span>
         </div>
 
         <!-- position -->
-        <div class="mb-3 d-none">
+        <div class="mb-3">
             <label for="register_input_position" class="form-label">Position</label>
             <select name="position" id="register_input_position" class="form-select">
                 <option value="">--- choose ---</option>
-                <option value="nurse">Nurse</option>
-                <option value="doctor">Doctor</option>
-                <option value="dentist">Dentist</option>
             </select>
             <span class="mt-1 invalid-feedback" id="register_input_position_error"></span>
         </div>
@@ -94,12 +89,14 @@
         });
 
         $('#register_input_classification').change(function(){
+            $('#register_input_position').empty();
             if($(this).val()=='infirmary personnel'){
-                $('#register_input_position').parent().removeClass('d-none');
+                var option = "<option value=''>--- Choose ---</option><option value='nurse'>Nurse</option><option value='doctor'>Doctor</option><option value='dentist'>Dentist</option>";         
             }
             else{
-                $('#register_input_position').parent().addClass('d-none');
+                var option = "<option value=''>--- Choose ---</option><option value='student'>Student</option><option value='teacher'>Teacher</option><option value='school personnel'>School Personnel</option>";         
             }
+            $('#register_input_position').html(option);
         });
 
         $('#register_btn_submit').click(function(){
