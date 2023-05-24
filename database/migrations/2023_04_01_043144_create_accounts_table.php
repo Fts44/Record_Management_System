@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('accounts', function (Blueprint $table) {
             $table->id('acc_id');
+            $table->boolean('acc_is_blocked')->default(0);
             $table->boolean('acc_is_verified');
             $table->boolean('acc_email_verified')->default(0);
             $table->string('acc_password');
