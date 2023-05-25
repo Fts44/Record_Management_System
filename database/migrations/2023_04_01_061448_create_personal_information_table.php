@@ -22,7 +22,6 @@ return new class extends Migration
             $table->string('pi_firstname')->nullable();
             $table->string('pi_middlename')->nullable();
             $table->string('pi_lastname')->nullable();
-            $table->string('pi_suffixname')->nullable();
             $table->string('pi_sex')->nullable();
             $table->date('pi_birthdate')->nullable();
             $table->string('pi_civil_status')->nullable();
