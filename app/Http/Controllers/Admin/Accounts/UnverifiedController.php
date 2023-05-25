@@ -24,7 +24,7 @@ class UnverifiedController extends Controller
         foreach($accounts as $acc){
             $rows = array();
             $rows['acc_id'] = sprintf("%05d",$acc->acc_id);
-            $rows['acc_email'] = $acc->pi_personal_email;
+            $rows['acc_email'] = '<li>'.$acc->pi_personal_email.'</li>';
             $rows['acc_classification'] = ucwords($acc->pi_classification);
             $rows['acc_position'] = ucwords($acc->pi_position);
             $rows['acc_created_date'] = date_format(date_create($acc->acc_created_date), 'M d, Y');

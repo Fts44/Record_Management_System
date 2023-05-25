@@ -32,16 +32,12 @@ class PatientController extends Controller
     
             if($acc->pi_gsuite_email && $acc->pi_personal_email){
                 $rows['acc_email'] = 
-                '<ul>
-                    <li>'.$acc->pi_gsuite_email.'</li>
-                    <li>'.$acc->pi_personal_email.'</li>
-                </ul>';
+                '<li>'.$acc->pi_gsuite_email.'</li>
+                <li>'.$acc->pi_personal_email.'</li>';
             }
             else{
                 $rows['acc_email'] =
-                '<ul>
-                    <li>'.(($acc->pi_gsuite_email) ? $acc->pi_gsuite_email : $acc->pi_personal_email).'</li>
-                </ul>';
+                '<li>'.(($acc->pi_gsuite_email) ? $acc->pi_gsuite_email : $acc->pi_personal_email).'</li>';
             }
 
             $rows['acc_department'] = 'dept';
