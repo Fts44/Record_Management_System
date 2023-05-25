@@ -28343,8 +28343,8 @@ button label {
 .navbar-vertical .navbar-brand span {
     color: #fff;
     font-size: 1.5rem;
-    font-weight: 700;
-    font-family : Fredoka;
+    /* font-weight: 700; */
+    font-family : "Inter", sans-serif;
     font-weight: 600;
     word-wrap: break-word;
     text-transform: uppercase;
