@@ -84,7 +84,7 @@
                     </div>
 
                     <ul class="list-unstyled">
-                        <li>
+                        <!-- <li>
                             <a class="dropdown-item" href="#">
                             <i class="me-2 icon-xxs dropdown-item-icon" data-feather="user"></i> Edit Profile
                             </a>
@@ -106,7 +106,7 @@
                             <a class="dropdown-item" href="#">
                             <i class="me-2 icon-xxs dropdown-item-icon" data-feather="settings"></i>Account Settings
                             </a>
-                        </li>
+                        </li> -->
 
                         <li>
                             <a class="dropdown-item" href="#">
