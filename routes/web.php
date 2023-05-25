@@ -26,7 +26,9 @@ Route::name('Authentication.')->prefix('/')->middleware([])->group(function(){
     });
 });
 
-use App\Http\Controllers\Admin\Accounts\DataController as AccountsDataController;
+
+use App\Http\Controllers\Patient\ProfileController;
+
 use App\Http\Controllers\Admin\Accounts\PatientController;
 use App\Http\Controllers\Admin\Accounts\EmployeeController;
 use App\Http\Controllers\Admin\Accounts\UnverifiedController;
@@ -34,9 +36,9 @@ use App\Http\Controllers\Admin\Accounts\BlockedController;
 
 Route::prefix('/main')->middleware([])->group(function(){
     Route::name('Patient.')->prefix('/patient')->group(function(){
-        Route::get('/', function(){
-            echo 'patient';
-        })->name('Index');
+        Route::name('Profile.')->prefix('/profile')->group(function(){
+            Route::get('/', [ProfileController::class, 'index'])->name('Index');
+        });
     });
 
     Route::name('Nurse.')->prefix('/nurse')->group(function(){
