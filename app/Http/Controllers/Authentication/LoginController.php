@@ -72,7 +72,7 @@ class LoginController extends Controller
                                     $redirect_to = route('Doctor.Index');
                                     break;
                                 default:
-                                    $redirect_to = route('Patient.Index');
+                                    $redirect_to = route('Patient.Profile.Index');
                             }
                         }
                         else{
