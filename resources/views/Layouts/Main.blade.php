@@ -28,7 +28,7 @@
   </head>
 
   <body class="bg-light"> 
-    <div id="db-wrapper">
+    <div id="db-wrapper" class="wrapper">
       <!-- Sidebar -->
       @stack('Sidebar')
       
