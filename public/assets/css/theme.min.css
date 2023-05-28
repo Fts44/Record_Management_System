@@ -28361,6 +28361,7 @@ button label {
 .navbar-classic {
     position: fixed;
     width: calc(100vw - 250px);
+    transition: width .25s;
     z-index: 99;
 }
 
