@@ -20,8 +20,8 @@
 
     <!-- DataTables -->
     <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css"> -->
-    <link rel="stylesheet" href="{{ asset('assets/css/dataTables/dataTables.bootstrap5.min.css') }}">
-
+    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap5.min.css') }}">
+    
     <title>
         @stack('title')
     </title>
@@ -38,6 +38,8 @@
 
         @yield('Content')
       </div>
+
+      <button class="btn btn-primary" id="back-to-top" onclick="topFunction()"><i class="bi bi-arrow-up"></i></button>
     </div>
 
     <!-- Scripts -->
