@@ -10,7 +10,7 @@
 
 @section('Content')
     <!-- Container fluid -->
-    <div class="container-fluid p-6">
+    <div class="container-fluid py-6 px-3">
         <div class="row">
             <div class="col-lg-12">
                 <!-- Page header -->
@@ -23,7 +23,9 @@
         <div class="row mb-8">
             <div class="col-12">
                 <div class="mb-4">
-                    <p class="fs-5 text-muted">Enter your personal information below.</p>
+                    {!! ucwords(\Crypt::decrypt(Session::get('hsp_user_data')['id'])) !!}
+                    <h4>Personal Information</h4>
+                    <p class="fs-5 text-muted">Enter your information below.</p>
                 </div>
             </div>
 
@@ -32,168 +34,199 @@
                 <div class="card">
                     <!-- card body -->
                     <div class="card-body">
+                        <form id="personal_information_form">
+                            <!-- CSRF Token -->
+                            <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
 
-                        <div>
-                            <form>
-                                 <!-- row -->
-                                 <div class="row">
-                                    <label class="col-12 mb-1 form-label">Full Name</label>
-
-                                    <div class="col-lg-4">
-                                        <input type="text" class="form-control mb-3" placeholder="First name" id="basic_information-first_name" required>
+                            @method('PUT')
+                            
+                            <!-- Profile Picture -->
+                            <div class="row my-4 d-flex justify-content-center">
+                                <div class="col-lg-4 col-md-8 col-sm-12">
+                                    <div class="row px-5 mb-1 d-flex justify-content-center">
+                                        <img src="{{ asset('assets/photos/default-profile.jpg') }}" id="personal_information-profile_picture" class="profile-picture-preview" alt="Profile-Picture-Preview">
                                     </div>
 
-                                    <div class="col-lg-4">
-                                        <input type="text" class="form-control mb-3" placeholder="Middle name" id="basic_information-middle_name" required>
-                                    </div>
-
-                                    <div class="col-lg-4">
-                                        <input type="text" class="form-control mb-3" placeholder="Last name" id="basic_information-last_name" required>
+                                    <div class="row d-flex justify-content-center">
+                                        <div class="col-12 text-center">
+                                            <label class="btn btn-primary w-75" for="profile_picture_input">Change Photo (2x2)</label>
+                                            <input type="file" name="profile_picture" id="profile_picture_input" class="form-control mt-1 d-none" accept=".png, .jpg, .jpeg">
+                                        </div>
+                                        <span class="mt-1 text-center error-message" id="personal_information-profile_picture-error"></span>
                                     </div>
                                 </div>
+                            </div>
 
-                                <!-- row -->
-                                <div class="row">
-                                    <div class="col-lg-4">
-                                        <label class="col-12 mb-1 form-label">SR-Code</label>
-                                        <input type="text" class="form-control mb-3" placeholder="##-#####" required>
+                            <!-- Full name -->
+                            <div class="row">
+                                <label class="col-12 mb-1 form-label">Full Name</label>
+
+                                <div class="col-lg-4 mb-3">
+                                    <input type="text" class="form-control" placeholder="First name" name="first_name" id="personal_information-first_name" required>
+                                    <div class="invalid-feedback mt-1" id="personal_information-first_name-error"></div>
+                                </div>
+
+                                <div class="col-lg-4 mb-3">
+                                    <input type="text" class="form-control" placeholder="Middle name" name="middle_name" id="personal_information-middle_name" required>
+                                    <div class="invalid-feedback mt-1" id="personal_information-middle_name-error"></div>
+                                </div>
+
+                                <div class="col-lg-4 mb-3">
+                                    <input type="text" class="form-control" name="last_name" id="personal_information-last_name" placeholder="Last name" required>
+                                    <div class="invalid-feedback mt-1" id="personal_information-last_name-error"></div>
+                                </div>
+                            </div>
+
+                            <!-- SR-Code, Personal Email, Gsuite Email -->
+                            <div class="row">
+                                <div class="col-lg-4 mb-3">
+                                    <label class="col-12 mb-1 form-label">SR-Code</label>
+                                    <input type="text" class="form-control" name="sr_code" id="personal_information-sr_code" placeholder="12-34567" required>
+                                    <div class="invalid-feedback mt-1" id="personal_information-sr_code-error"></div>
+                                </div>
+
+                                <div class="col-lg-4 mb-3">
+                                    <label class="col-12 mb-1 form-label">Personal Email</label>
+                                    <input type="email" class="form-control" name="personal_email" id="personal_information-personal_email" placeholder="abc@gmail.com" required>
+                                    <div class="invalid-feedback mt-1" id="personal_information-personal_email-error"></div>
+                                </div>
+
+                                <div class="col-lg-4">
+                                    <label class="col-12 mb-1 form-label">Gsuite Email</label>
+                                    <div class="input-group mb-3">
+                                        <input type="email" class="form-control" name="gsuite_email" id="personal_information-gsuite_email" placeholder="def@g.batstate-u.edu.ph" required>
+                                        <button class="btn btn-primary fs-5" type="button">
+                                            <label>Verify</label>
+                                        </button>
+                                        <div class="invalid-feedback mt-1" id="personal_information-gsuite_email-error"></div>
                                     </div>
+                                </div>
+                            </div>
 
-                                    <div class="col-lg-4">
-                                        <label class="col-12 mb-1 form-label">Personal Email</label>
-                                        <input type="email" class="form-control mb-3" placeholder="abc@gmail.com" id="email" required>
-                                    </div>
+                            <!-- Grade Level, Department, Program -->
+                            <div class="row">
+                                <div class="col-lg-4 mb-3">
+                                    <label class="col-12 mb-1 form-label">Grade Level</label>
+                                    <select name="grade_level" id="personal_information-grade_level" class="form-select">
+                                        <option value="">--- Choose ---</option>
+                                    </select>
+                                    <div class="invalid-feedback mt-1" id="personal_information-grade_level-error"></div>
+                                </div>
 
-                                    <div class="col-lg-4">
-                                        <label class="col-12 mb-1 form-label">Gsuite Email</label>
-                                        <div class="input-group mb-3">
-                                            <input type="email" class="form-control" placeholder="def@g.batstate-u.edu.ph" id="basic_information-gsuite_email" required>
-                                            <button class="btn btn-primary" type="button">
-                                                <label>Verify</label>
+                                <div class="col-lg-4 mb-3">
+                                    <label class="col-12 mb-1 form-label">Department</label>
+                                    <select name="department" id="personal_information-department" class="form-select">
+                                        <option value="">--- Choose ---</option>
+                                    </select>
+                                    <div class="invalid-feedback mt-1" id="personal_information-department-error"></div>
+                                </div>
+
+                                <div class="col-lg-4 mb-3">
+                                    <label class="col-12 mb-1 form-label">Program</label>
+                                    <select name="program" id="personal_information-program" class="form-select">
+                                        <option value="">--- Choose ---</option>
+                                    </select>
+                                    <div class="invalid-feedback mt-1" id="personal_information-program-error"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- Birthdate, Sex, Civil Status -->
+                            <div class="row">
+
+                                <div class="col-lg-4 mb-3">
+                                    <label class="col-12 mb-1 form-label">Birthdate</label>
+                                    <input type="date" name="birthdate" id="personal_information-birthdate" class="form-control">
+                                    <div class="invalid-feedback mt-1" id="personal_information-birthdate-error"></div>
+                                </div>
+
+                                <div class="col-lg-4 mb-3">
+                                    <label class="col-12 mb-1 form-label">Sex</label>
+                                    <select name="sex" id="personal_information-sex" class="form-select">
+                                        <option value="">--- Choose ---</option>
+                                        <option value="female">Female</option>
+                                        <option value="male">Male</option>
+                                    </select>
+                                    <div class="invalid-feedback mt-1" id="personal_information-sex-error"></div>
+                                </div>
+
+                                <div class="col-lg-4 mb-3">
+                                    <label class="col-12 mb-1 form-label">Civil Status</label>
+                                    <select name="civil_status" id="personal_information-civil_status" class="form-select">
+                                        <option value="">--- Choose ---</option>
+                                        <option value="single">Single</option>
+                                        <option value="married">Married</option>
+                                        <option value="separated">Separated</option>
+                                    </select>
+                                    <div class="invalid-feedback mt-1" id="personal_information-civil_status-error"></div>
+                                </div>
+
+                                
+                            </div>
+
+                            <!-- Religion, Contact No -->
+                            <div class="row">
+                                <div class="col-lg-4 mb-3">
+                                    <label class="col-12 mb-1 form-label">Religion</label>
+                                    <select name="religion" id="personal_information-religion" class="form-select">
+                                        <option value="">--- Choose ---</option>
+                                    </select>
+                                    <div class="invalid-feedback mt-1" id="personal_information-religion-error"></div>
+                                </div>
+
+                                <div class="col-lg-4 mb-3">
+                                    <label class="col-12 mb-1 form-label">Contact Number</label>
+                                    <input type="text" class="form-control" name="contact_number" id="personal_information-contact_number" placeholder="Phone" required>
+                                    <div class="invalid-feedback mt-1" id="personal_information-contact_number-error"></div>
+                                </div>
+
+                                <div class="col-lg-4 mb-3">
+                                    <label class="col-12 mb-1 form-label">Position</label>
+                                    <select name="position" id="personal_information-position" class="form-select">
+                                        <option value="">--- Choose ---</option>
+                                    </select>
+                                    <div class="invalid-feedback mt-1" id="personal_information-position-error"></div>
+                                </div>
+                            </div>
+
+                            <!-- Address -->
+                            <div class="row">
+                                <label class="col-12 mb-1 form-label">Address</label>
+
+                                <div class="col-lg-4 mb-3">
+                                    <select class="form-select" name="province" id="personal_information-province">
+                                        <option value="">--- Choose Province ---</option>
+                                    </select>
+                                    <div class="invalid-feedback mt-1" id="personal_information-province-error"></div>
+                                </div>
+
+                                <div class="col-lg-4 mb-3">
+                                    <select class="form-select" name="city" id="personal_information-city">
+                                        <option value="">--- Choose City ---</option>
+                                    </select>
+                                    <div class="invalid-feedback mt-1" id="personal_information-city-error"></div>
+                                </div>
+
+                                <div class="col-lg-4 mb-3">
+                                    <select class="form-select" name="barangay" id="personal_information-barangay">
+                                        <option value="">--- Choose Barangay ---</option>
+                                    </select>
+                                    <div class="invalid-feedback mt-1" id="personal_information-barangay-error"></div>
+                                </div>
+                            </div>
+
+                            <!-- Save Changes -->
+                            <div class="row mt-2 d-flex justify-content-center">
+                                <div class="col-lg-4 col-md-8 col-sm-12">
+                                    <div class="row">
+                                        <div class="col-12 d-flex justify-content-center mt-3">
+                                            <button class="btn btn-primary w-75" type="button" id="personal_information_form_submit">
+                                                <label>Save Changes</label>
                                             </button>
                                         </div>
                                     </div>
                                 </div>
-
-                                <!-- row -->
-                                <div class="row">
-                                    <div class="col-lg-4">
-                                        <label class="col-12 mb-1 form-label">Position</label>
-                                        <select name="" id="" class="form-select mb-3">
-                                            <option value="">--- Choose ---</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="col-lg-4">
-                                        <label class="col-12 mb-1 form-label">Department</label>
-                                        <select name="" id="" class="form-select mb-3">
-                                            <option value="">--- Choose ---</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="col-lg-4">
-                                        <label class="col-12 mb-1 form-label">Program</label>
-                                        <select name="" id="" class="form-select mb-3">
-                                            <option value="">--- Choose ---</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <!-- row -->
-                                <div class="row">
-                                    <div class="col-lg-4">
-                                        <label class="col-12 mb-1 form-label">Grade Level</label>
-                                        <select name="" id="" class="form-select mb-3">
-                                            <option value="">--- Choose ---</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="col-lg-4">
-                                        <label class="col-12 mb-1 form-label">Year Level</label>
-                                        <select name="" id="" class="form-select mb-3">
-                                            <option value="">--- Choose ---</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                
-                                <!-- row -->
-                                <div class="row">
-
-                                    <div class="col-lg-4">
-                                        <label class="col-12 mb-1 form-label">Birthdate</label>
-                                        <input type="date" name="" id="" class="form-control mb-3">
-                                    </div>
-
-                                    <div class="col-lg-4">
-                                        <label class="col-12 mb-1 form-label">Sex</label>
-                                        <select name="" id="" class="form-select mb-3">
-                                            <option value="">--- Choose ---</option>
-                                            <option value="female">Female</option>
-                                            <option value="male">Male</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="col-lg-4">
-                                        <label class="col-12 mb-1 form-label">Civil Status</label>
-                                        <select name="" id="" class="form-select mb-3">
-                                            <option value="">--- Choose ---</option>
-                                            <option value="single">Single</option>
-                                            <option value="married">Married</option>
-                                            <option value="separated">Separated</option>
-                                        </select>
-                                    </div>
-
-                                    
-                                </div>
-
-                                <!-- row -->
-                                <div class="row">
-                                    <div class="col-lg-4">
-                                        <label class="col-12 mb-1 form-label">Religion</label>
-                                        <select name="" id="" class="form-select mb-3">
-                                            <option value="">--- Choose ---</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="col-lg-4">
-                                        <label class="col-12 mb-1 form-label">Contact Number</label>
-                                        <input type="text" class="form-control mb-3" placeholder="Phone" id="phone" required>
-                                    </div>
-                                </div>
-
-                                <!-- row -->
-                                <div class="row">
-                                    <label class="col-12 mb-1 form-label">Address</label>
-
-                                    <div class="col-lg-4">
-                                        <select class="form-select mb-3">
-                                            <option selected>--- Choose Province ---</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="col-lg-4">
-                                        <select class="form-select mb-3">
-                                            <option selected>--- Choose City ---</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="col-lg-4">
-                                        <select class="form-select mb-3">
-                                            <option selected>--- Choose Barangay ---</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="row mt-2">
-                                    <div class="col-lg-12">
-                                        <button class="btn btn-primary">
-                                            <label>Save Changes</label>
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-
-                        </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
 
@@ -205,5 +238,53 @@
 @endsection
 
 @push('script')
+    <script>
+        $('#profile_picture_input').change(function(e){
+            let file = $("input[type=file]").get(0).files[0];
 
+            if(file.size > (2 * 1024 * 1024)){
+                swal('Failed!', 'The maximum file size is 2mb!', 'error');
+            }
+            else{
+                if(file){
+                    var reader = new FileReader();
+                    reader.onload = function(){
+                        $("#profile_picture").attr("src", reader.result);
+                    }
+                    reader.readAsDataURL(file);
+                }
+            }
+        });
+
+        $('#personal_information_form_submit').click(function(){
+            reset_input_errors();
+            load_btn('#personal_information_form_submit',true);
+            var formData = new FormData($('#personal_information_form')[0]);
+
+            $.ajax({
+                type: "POST",
+                url: "{{ route('Patient.Profile.PersonalInformation.Update') }}",
+                contentType: false,
+                processData: false,
+                data: formData,
+                enctype: 'multipart/form-data',
+                success: function(response){
+                    response = JSON.parse(response);
+                    console.log(response);
+                    swal(response.title, response.message, response.icon);
+                    if(response.status == 400){
+                        $.each(response.errors, function(key, err_values){
+                            $('#personal_information-'+key+'-error').html(err_values);
+                            $('#personal_information-'+key).addClass('is-invalid');
+                        });
+                    }
+                },
+                error: function(response){
+                    console.log(response);
+                }
+            }).always(function(){
+                load_btn('#personal_information_form_submit',false);
+            });
+        });
+    </script>
 @endpush
