@@ -21,8 +21,8 @@ Route::name('Authentication.')->prefix('/')->middleware([])->group(function(){
     Route::name('Recover.')->prefix('/recover')->group(function(){
         Route::get('/', [RecoverController::class, 'index'])->name('Index');
         Route::post('/create', [RecoverController::class, 'create'])->name('Create');
-        Route::get('/change-password/{acc_id}/{acc_token}', [RecoverController::class, 'change_password_index'])->name('Update');
-        Route::post('/change-password/{acc_id}/{acc_token}', [RecoverController::class, 'update'])->name('Update');  
+        Route::get('/change-password/{acc_id}/{acc_token}/', [RecoverController::class, 'change_password_index'])->name('Update');
+        Route::put('/change-password/{acc_id}/{acc_token}/', [RecoverController::class, 'update'])->name('Update');  
     });
 });
 
@@ -38,6 +38,7 @@ Route::prefix('/main')->middleware([])->group(function(){
     Route::name('Patient.')->prefix('/patient')->group(function(){
         Route::name('Profile.')->prefix('/profile')->group(function(){
             Route::get('/', [ProfileController::class, 'index'])->name('Index');
+            Route::put('/update-basic-information', [ProfileController::class, 'update_personal_information'])->name('PersonalInformation.Update');
         });
     });
 

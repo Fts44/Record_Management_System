@@ -11,6 +11,7 @@
     <form id="form_change_password">
         <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
     
+        @method('PUT')
         <!-- New Password -->
         <div class="mb-3">
             <label for="change_password_input_new_password" class="form-label">New Password</label>
