@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use DB;
 use Session;
+use Illuminate\Support\Facades\Crypt;
 
 use App\Rules\PasswordRule as PasswordRule;
 
@@ -59,6 +60,19 @@ class LoginController extends Controller
                 if(Hash::check($request->password, $acc->acc_password)){
 
                     if($acc->acc_is_verified){
+
+                        $acc_data = [
+                            'id' => Crypt::encrypt($acc->acc_id),
+                            'password' => $acc->acc_password,
+                            'acc_type' => Crypt::encrypt($acc->acc_type),
+                            'gsuite_email' => Crypt::encrypt($acc->pi_gsuite_email),
+                            'personal_email' => Crypt::encrypt($acc->pi_personal_email),
+                            'classification' => Crypt::encrypt($acc->pi_classification),
+                            'position' => Crypt::encrypt($acc->pi_position),
+                            'profile_picture' => $acc->pi_photo,
+                        ];
+
+                        Session::put('hsp_user_data', $acc_data);
 
                         $redirect_to = '';
 
