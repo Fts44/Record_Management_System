@@ -65,11 +65,12 @@ class LoginController extends Controller
                             'id' => Crypt::encrypt($acc->acc_id),
                             'password' => $acc->acc_password,
                             'acc_type' => Crypt::encrypt($acc->acc_type),
-                            'gsuite_email' => Crypt::encrypt($acc->pi_gsuite_email),
-                            'personal_email' => Crypt::encrypt($acc->pi_personal_email),
+                            'first_name' => Crypt::encrypt(($acc->pi_firstname) ? $acc->pi_firstname : 'FirstName'),
+                            'middle_name' => Crypt::encrypt(($acc->pi_middlename) ? $acc->pi_middlename : 'MiddleName'),
+                            'last_name' => Crypt::encrypt(($acc->pi_lastname) ? $acc->pi_lastname : 'LastName'),
                             'classification' => Crypt::encrypt($acc->pi_classification),
                             'position' => Crypt::encrypt($acc->pi_position),
-                            'profile_picture' => $acc->pi_photo,
+                            'profile_picture' => Crypt::encrypt(($acc->pi_photo) ? $acc->pi_middlename : 'default-profile.jpg'),
                         ];
 
                         Session::put('hsp_user_data', $acc_data);
