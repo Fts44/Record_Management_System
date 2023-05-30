@@ -14,16 +14,15 @@
         <div class="row">
             <div class="col-lg-12">
                 <!-- Page header -->
-                <div class="border-bottom pb-4 mb-4">              
-                    <h3 class="mb-0 fw-bold">Profile</h3>      
-                </div>
+                    <div class="border-bottom pb-4 mb-4">              
+                        <h3 class="mb-0 fw-bold">Profile</h3>      
+                    </div>
             </div>
         </div>
 
         <div class="row mb-8">
             <div class="col-12">
                 <div class="mb-4">
-                    {!! ucwords(\Crypt::decrypt(Session::get('hsp_user_data')['id'])) !!}
                     <h4>Personal Information</h4>
                     <p class="fs-5 text-muted">Enter your information below.</p>
                 </div>
@@ -43,16 +42,34 @@
                             <!-- Profile Picture -->
                             <div class="row my-4 d-flex justify-content-center">
                                 <div class="col-lg-4 col-md-8 col-sm-12">
-                                    <div class="row px-5 mb-1 d-flex justify-content-center">
-                                        <img src="{{ asset('assets/photos/default-profile.jpg') }}" id="personal_information-profile_picture" class="profile-picture-preview" alt="Profile-Picture-Preview">
+                                    <div class="row px-5 d-flex justify-content-center">
+                                        @php 
+                                            $profile_picture = \Crypt::decrypt(Session::get('hsp_user_data')['profile_picture'])
+                                        @endphp 
+                                        <img src="{{ asset('assets/photos/'.$profile_picture) }}" id="personal_information-profile_picture" class="profile-picture-preview my-form-control" alt="Profile-Picture-Preview">
                                     </div>
 
                                     <div class="row d-flex justify-content-center">
                                         <div class="col-12 text-center">
-                                            <label class="btn btn-primary w-75" for="profile_picture_input">Change Photo (2x2)</label>
-                                            <input type="file" name="profile_picture" id="profile_picture_input" class="form-control mt-1 d-none" accept=".png, .jpg, .jpeg">
+                                            <label class="btn btn-primary w-75 mt-1" for="personal_information-profile_picture_input" 
+                                                data-bs-toggle="popover" 
+                                                data-bs-trigger="hover" 
+                                                data-bs-placement="top" 
+                                                data-bs-title="Change Photo"
+                                                data-bs-content="Upload your 2x2 photo.">
+                                                Change Photo (2x2)
+                                            </label>
+                                            <button type="button" class="btn btn-danger mt-1" id="remove_profile_picture"
+                                                data-bs-toggle="popover" 
+                                                data-bs-trigger="hover" 
+                                                data-bs-placement="top" 
+                                                data-bs-title="Delete Uploaded Photo"
+                                                data-bs-content="Remove uploaded photo.">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                            <input type="file" name="profile_picture" id="personal_information-profile_picture_input" class="form-control mt-1 d-none" accept=".png, .jpg, .jpeg">
                                         </div>
-                                        <span class="mt-1 text-center error-message" id="personal_information-profile_picture-error"></span>
+                                        <span class="mt-1 text-center my-invalid-feedback" id="personal_information-profile_picture-error"></span>
                                     </div>
                                 </div>
                             </div>
@@ -91,14 +108,21 @@
                                     <div class="invalid-feedback mt-1" id="personal_information-personal_email-error"></div>
                                 </div>
 
-                                <div class="col-lg-4">
+                                <div class="col-lg-4 mb-3">
                                     <label class="col-12 mb-1 form-label">Gsuite Email</label>
-                                    <div class="input-group mb-3">
-                                        <input type="email" class="form-control" name="gsuite_email" id="personal_information-gsuite_email" placeholder="def@g.batstate-u.edu.ph" required>
-                                        <button class="btn btn-primary fs-5" type="button">
-                                            <label>Verify</label>
-                                        </button>
-                                        <div class="invalid-feedback mt-1" id="personal_information-gsuite_email-error"></div>
+                                    <div class="row">
+                                        <div class="input-group">
+                                            <input type="email" class="form-control" name="gsuite_email" id="personal_information-gsuite_email" placeholder="def@g.batstate-u.edu.ph" required>
+                                            <button class="btn btn-primary" type="button"
+                                                data-bs-toggle="popover" 
+                                                data-bs-trigger="hover" 
+                                                data-bs-placement="top" 
+                                                data-bs-title="Gsuite Verification"
+                                                data-bs-content="Get your email verification link.">
+                                                <label>Verify</label>
+                                            </button>
+                                        </div>
+                                        <span class="my-invalid-feedback mt-1" id="personal_information-gsuite_email-error"></span>
                                     </div>
                                 </div>
                             </div>
@@ -239,7 +263,7 @@
 
 @push('script')
     <script>
-        $('#profile_picture_input').change(function(e){
+        $('#personal_information-profile_picture_input').change(function(e){
             let file = $("input[type=file]").get(0).files[0];
 
             if(file.size > (2 * 1024 * 1024)){
@@ -249,11 +273,16 @@
                 if(file){
                     var reader = new FileReader();
                     reader.onload = function(){
-                        $("#profile_picture").attr("src", reader.result);
+                        $("#personal_information-profile_picture").attr("src", reader.result);
                     }
                     reader.readAsDataURL(file);
                 }
             }
+        });
+
+        $('#remove_profile_picture').click(function(){
+            $("#personal_information-profile_picture").attr("src", "{{ asset('assets/photos/'.$profile_picture) }}");
+            $('#personal_information-profile_picture_input').val('');
         });
 
         $('#personal_information_form_submit').click(function(){
