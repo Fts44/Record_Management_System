@@ -85,7 +85,7 @@ function alert_show(icon, message, type){
 
 function reset_input_errors(){
     $('.invalid-feedback').html('');
-    $('.form-select, .form-control').removeClass('is-invalid');
+    $('.form-select, .form-control, .my-form-control').removeClass('is-invalid');
     $('.my-invalid-feedback').html('');
 }
 
