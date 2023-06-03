@@ -24,6 +24,24 @@ Route::name('Authentication.')->prefix('/')->middleware([])->group(function(){
         Route::get('/change-password/{acc_id}/{acc_token}/', [RecoverController::class, 'change_password_index'])->name('Update');
         Route::put('/change-password/{acc_id}/{acc_token}/', [RecoverController::class, 'update'])->name('Update');  
     });
+
+    
+});
+
+
+use App\Http\Controllers\PopulateSelectController;
+
+Route::prefix('/test')->group(function(){
+    Route::get('/', [PopulateSelectController::class, 'provinces']);
+});
+
+Route::name('Populate.')->prefix('/populate')->middleware([])->group(function(){
+    // address
+    Route::get('/municipalities/{prov_id}/{selected_id}/{is_select_element}', [PopulateSelectController::class, 'municipalities'])->name('Populate.Municipalities');
+    Route::get('/barangays/{mun_id}/{selected_id}/{is_select_element}', [PopulateSelectController::class, 'barangays'])->name('Populate.Barangays');
+    // programs
+    Route::get('/departments/{grade_level}/{selected_id}/{is_select_element}', [PopulateSelectController::class, 'departments'])->name('Populate.Departments');
+    Route::get('/programs/{dept_id}/{selected_id}/{is_select_element}', [PopulateSelectController::class, 'programs'])->name('Populate.Programs');
 });
 
 

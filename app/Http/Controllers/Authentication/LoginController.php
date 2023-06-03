@@ -62,8 +62,8 @@ class LoginController extends Controller
                     if($acc->acc_is_verified){
 
                         $acc_data = [
-                            'id' => Crypt::encrypt($acc->acc_id),
-                            'password' => $acc->acc_password,
+                            'acc_id' => Crypt::encrypt($acc->acc_id),
+                            'acc_password' => $acc->acc_password,
                             'acc_type' => Crypt::encrypt($acc->acc_type),
                             'first_name' => Crypt::encrypt(($acc->pi_firstname) ? $acc->pi_firstname : 'FirstName'),
                             'middle_name' => Crypt::encrypt(($acc->pi_middlename) ? $acc->pi_middlename : 'MiddleName'),
