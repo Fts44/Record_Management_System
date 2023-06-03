@@ -17,6 +17,25 @@ return new class extends Migration
             $table->id('gl_id');
             $table->string('gl_name');
         });
+
+        DB::table('grade_level')->insert([
+            [
+                'gl_id' => '1',
+                'gl_name' => 'Elementary'
+            ],
+            [
+                'gl_id' => '2',
+                'gl_name' => 'Junior High'
+            ],
+            [
+                'gl_id' => '3',
+                'gl_name' => 'Senior High'
+            ],
+            [
+                'gl_id' => '4',
+                'gl_name' => 'College'
+            ]
+        ]);
     }
 
     /**
