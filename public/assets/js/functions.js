@@ -112,21 +112,16 @@ function leftPad(number, targetLength) {
     return output;
 }
 
-function set_municipality(select_mun, mun_code, prov_code, select_brgy){
+function set_municipalities(select_mun, prov_id, mun_id, select_brgy){
     $(select_mun).empty();
-    clear_select(select_mun,'--- choose ---');
-    clear_select(select_brgy,'--- choose ---');
+    clear_select(select_mun,'--- Choose City ---');
+    clear_select(select_brgy,'--- Choose Barangay ---');
+    prov_id = (prov_id=="") ? null : prov_id;
     $.ajax({
-        url: window.location.origin+"/populate/municipality/"+prov_code,
+        url: window.location.origin+"/populate/municipalities/"+prov_id+"/"+mun_id+"/true",
         type: "GET",
         success: function (response) {      
-            $.each( response, function( key, item ) {
-                $(select_mun).append($('<option>', { 
-                    value: item.mun_code,
-                    text : item.mun_name,
-                    selected: (item.mun_code==mun_code) ? true : false
-                }));
-            });
+            $(select_mun).append(response);
         },
         error: function(response) {
             console.log(response);
@@ -134,20 +129,15 @@ function set_municipality(select_mun, mun_code, prov_code, select_brgy){
     });
 };
 
-function set_barangay(select_brgy, brgy_code, mun_code){
+function set_barangays(select_brgy, mun_id, brgy_id){
     $(select_brgy).empty();
-    clear_select(select_brgy,'--- choose ---');
+    clear_select(select_brgy,'--- Choose Barangay ---');
+    mun_id = (mun_id=="") ? null : mun_id;
     $.ajax({
-        url: window.location.origin+"/populate/barangay/"+mun_code,
+        url: window.location.origin+"/populate/barangays/"+mun_id+"/"+brgy_id+"/true",
         type: "GET",
         success: function (response) {      
-            $.each( response, function( key, item ) {
-                $(select_brgy).append($('<option>', { 
-                    value: item.brgy_code,
-                    text : item.brgy_name,
-                    selected: (item.brgy_code==brgy_code) ? true : false
-                }));
-            });
+            $(select_brgy).append(response);
         },
         error: function(response) {
             console.log(response);
@@ -155,22 +145,17 @@ function set_barangay(select_brgy, brgy_code, mun_code){
     });
 };
 
-function set_department(select_dept, dept_id, gl_id, select_program){
+function set_departments(select_dept, gl_id, dept_id, select_program){
     $(select_dept).empty();
     $(select_program).empty();
-    clear_select(select_dept,'--- choose ---');
-    clear_select(select_program,'--- choose ---');
+    clear_select(select_dept,'--- Choose ---');
+    clear_select(select_program,'--- Choose ---');
+    gl_id = (gl_id=="") ? null : gl_id;
     $.ajax({
-        url: window.location.origin+"/populate/department/"+gl_id,
+        url: window.location.origin+"/populate/departments/"+gl_id+"/"+dept_id+"/true",
         type: "GET",
         success: function (response) {      
-            $.each( response, function( key, item ) {
-                $(select_dept).append($('<option>', { 
-                    value: item.dept_id,
-                    text : item.dept_code,
-                    selected: (item.dept_id==dept_id) ? true : false
-                }));
-            });
+            $(select_dept).append(response);
         },
         error: function(response) {
             console.log(response);
@@ -178,41 +163,15 @@ function set_department(select_dept, dept_id, gl_id, select_program){
     });
 }
 
-function set_program(select_prog, prog_id, dept_id){
+function set_programs(select_prog, dept_id, prog_id){
     $(select_prog).empty();
-    clear_select(select_prog,'--- choose ---');
+    clear_select(select_prog,'--- Choose ---');
+    dept_id = (dept_id=="") ? null : dept_id;
     $.ajax({
-        url: window.location.origin+"/populate/program/"+dept_id,
+        url: window.location.origin+"/populate/programs/"+dept_id+"/"+prog_id+"/true",
         type: "GET",
         success: function (response) {      
-            $.each( response, function( key, item ) {
-                $(select_prog).append($('<option>', { 
-                    value: item.prog_id,
-                    text : item.prog_code,
-                    selected: (item.prog_id==prog_id) ? true : false
-                }));
-            });
-        },
-        error: function(response) {
-            console.log(response);
-        }
-    });
-}
-
-function set_year_level(select_year_level, yl_id, gl_id){
-    $(select_year_level).empty();
-    clear_select(select_year_level,'--- choose ---');
-    $.ajax({
-        url: window.location.origin+"/populate/yearlevel/"+gl_id,
-        type: "GET",
-        success: function (response) {      
-            $.each( response, function( key, item ) {
-                $(select_year_level).append($('<option>', { 
-                    value: item.yl_id,
-                    text : item.yl_name,
-                    selected: (item.yl_id==yl_id) ? true : false
-                }));
-            });
+            $(select_prog).append(response);
         },
         error: function(response) {
             console.log(response);
@@ -258,91 +217,4 @@ function ucwords(str){
     	return letter.toUpperCase();
 	});
 	return result;
-}
-
-function set_municipality(select_mun, mun_code, prov_code, select_brgy){
-    $(select_mun).empty();
-    clear_select(select_mun,'--- choose ---');
-    clear_select(select_brgy,'--- choose ---');
-    $.ajax({
-        url: window.location.origin+"/populate/municipality/"+prov_code,
-        type: "GET",
-        success: function (response) {      
-            $.each( response, function( key, item ) {
-                $(select_mun).append($('<option>', { 
-                    value: item.mun_code,
-                    text : item.mun_name,
-                    selected: (item.mun_code==mun_code) ? true : false
-                }));
-            });
-        },
-        error: function(response) {
-            console.log(response);
-        }
-    });
-};
-
-function set_barangay(select_brgy, brgy_code, mun_code){
-    $(select_brgy).empty();
-    clear_select(select_brgy,'--- choose ---');
-    $.ajax({
-        url: window.location.origin+"/populate/barangay/"+mun_code,
-        type: "GET",
-        success: function (response) {      
-            $.each( response, function( key, item ) {
-                $(select_brgy).append($('<option>', { 
-                    value: item.brgy_code,
-                    text : item.brgy_name,
-                    selected: (item.brgy_code==brgy_code) ? true : false
-                }));
-            });
-        },
-        error: function(response) {
-            console.log(response);
-        }
-    });
-};
-
-function set_department(select_dept, dept_id, gl_id, select_program){
-    $(select_dept).empty();
-    $(select_program).empty();
-    clear_select(select_dept,'--- choose ---');
-    clear_select(select_program,'--- choose ---');
-    $.ajax({
-        url: window.location.origin+"/populate/department/"+gl_id,
-        type: "GET",
-        success: function (response) {      
-            $.each( response, function( key, item ) {
-                $(select_dept).append($('<option>', { 
-                    value: item.dept_id,
-                    text : item.dept_code,
-                    selected: (item.dept_id==dept_id) ? true : false
-                }));
-            });
-        },
-        error: function(response) {
-            console.log(response);
-        }
-    });
-}
-
-function set_program(select_prog, prog_id, dept_id){
-    $(select_prog).empty();
-    clear_select(select_prog,'--- choose ---');
-    $.ajax({
-        url: window.location.origin+"/populate/program/"+dept_id,
-        type: "GET",
-        success: function (response) {      
-            $.each( response, function( key, item ) {
-                $(select_prog).append($('<option>', { 
-                    value: item.prog_id,
-                    text : item.prog_code,
-                    selected: (item.prog_id==prog_id) ? true : false
-                }));
-            });
-        },
-        error: function(response) {
-            console.log(response);
-        }
-    });
 }
