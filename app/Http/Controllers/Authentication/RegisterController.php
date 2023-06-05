@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Validation\Rule;
-use DB;
+use DB; 
 
 use App\Rules\PasswordRule as PasswordRule;
 
@@ -104,7 +104,7 @@ class RegisterController extends Controller
                     'icon' => 'info'
                 ];
             }
-            else if($acc->acc_token_expr == null or $acc->acc_token_expr > date('Y-m-d')){
+            else if($acc->acc_token_expr == null or $acc->acc_token_expr > Carbon::now()){
                 $acc->acc_email_verified = true;
                 $acc->save();
                 $response = [
@@ -129,6 +129,62 @@ class RegisterController extends Controller
             ];
         };
 
+        return redirect()->route('Authentication.Login.Index')->with([
+            'response' => json_encode($response)
+        ]);
+    }
+
+    public function update_add_email(Request $request){
+        try {
+            $acc_id = Crypt::decrypt($request->acc_id);
+            $acc_token = Crypt::decrypt($request->acc_token);
+            $email = Crypt::decrypt($request->acc_email);
+
+            $acc = Accounts::where('acc_id', $acc_id)->where('acc_token', $acc_token)->first();
+
+            if($acc){
+                if($acc->acc_token_expr > Carbon::now()){
+                    $personal_info = PersonalInformation::where('acc_id', $acc_id)->first();
+
+                    if(str_ends_with($email, '@g.batstate-u.edu.ph')){
+                        $personal_info->pi_gsuite_email = $email;
+                        $email_type = 'gsuite';
+                    }
+                    else{
+                        $personal_info->pi_personal_email = $email;
+                        $email_type = 'personal';
+                    }
+                    $personal_info->save();
+
+                    $response = [
+                        'title' => 'Success',
+                        'message' => 'Your '.$email_type.' email is now connected to your account!.',
+                        'icon' => 'success'
+                    ];
+                }
+                else{
+                    $response = [
+                        'title' => 'Failed',
+                        'message' => 'Your link is expired!, Please try again.',
+                        'icon' => 'error'
+                    ];
+                }
+            }
+            else{
+                $response = [
+                    'title' => 'Failed',
+                    'message' => 'Your link is invalid!, Please try again.',
+                    'icon' => 'error'
+                ];
+            }        
+        } catch (\Exception $e) {
+            $response = [
+                'title' => 'Failed',
+                'message' => 'Your link is invalid!, Please try again.1',
+                'icon' => 'error'
+            ];
+        }
+        
         return redirect()->route('Authentication.Login.Index')->with([
             'response' => json_encode($response)
         ]);
