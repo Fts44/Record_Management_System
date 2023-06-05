@@ -383,6 +383,36 @@
 
         </div> 
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="email_update-email-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="email_update-email-modal_label">Update Email</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="email_update">
+                    <!-- CSRF Token -->
+                    <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
+
+                    @method('PUT')
+                    <div class="col-12 mb-3">
+                        <label class="form-label mb-1" id="update_email-label">New Personal Email</label>
+                        <input type="text" class="form-control mb-1" id="update_email-email" name="">
+                        <div class="invalid-feedback mt-1" id="update_email-error"></div>
+                    </div>
+                    <div class="col-12 text-center">
+                        <button class="btn btn-primary" id="email_update-update" type="button" style="width: 200px;">
+                            <label>Get Verification Link</label>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('script')
@@ -561,11 +591,47 @@
         });
 
         $('#emails-personal_email-edit').click(function(){
-            alert('edit');
-            // modal lalabas
-            
-            
+            $('#update_email-label').html('New Personal Email');
+            $('#update_email-email').attr('name', 'personal_email');
+            $('#email_update-email-modal').modal('show');
         }); 
+
+        $('#emails-gsuite_email-edit').click(function(){
+            $('#update_email-label').html('New Gsuite Email');
+            $('#update_email-email').attr('name', 'gsuite_email');
+            $('#email_update-email-modal').modal('show');
+        }); 
+
+        $('#email_update-update').click(function(){
+            reset_input_errors('#email_update');
+            load_btn('#email_update-update', true);
+            var formData = new FormData($('#email_update')[0]);
+
+            $.ajax({
+                type: "POST",
+                url: "{{ route('Patient.Profile.Email.SendVerification') }}",
+                contentType: false,
+                processData: false,
+                data: formData,
+                enctype: 'multipart/form-data',
+                success: function(response){
+                    response = JSON.parse(response);
+                    console.log(response);
+                    swal(response.title, response.message, response.icon);
+                    if(response.status == 400){
+                        $.each(response.errors, function(key, err_values){
+                            $('#update_email-'+key+'-error').html(err_values);
+                            $('#update_email-'+key).addClass('is-invalid');
+                        });
+                    }
+                },
+                error: function(response){
+                    console.log(response);
+                }
+            }).always(function(){
+                load_btn('#email_update-update',false);
+            });
+        });
 
         $('#emails-gsuite_email-verify').click(function(){
             reset_input_errors('#gsuite_email_form');
@@ -622,9 +688,6 @@
                             $('#emails-'+key+'-error').html(err_values);
                             $('#emails-'+key).addClass('is-invalid');
                         });
-                    }
-                    else if(response.status == 200){
-                        // change value of input
                     }
                 },
                 error: function(response){
