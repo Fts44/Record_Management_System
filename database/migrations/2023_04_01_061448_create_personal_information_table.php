@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string('pi_civil_status')->nullable();
             $table->string('pi_grade_level')->nullable();
             $table->integer('dept_id')->nullable();
-            $table->integer('crs_id')->nullable();
+            $table->integer('prog_id')->nullable();
             // $table->integer('pi_year_level')->nullable();
             $table->string('pi_gsuite_email')->unique()->nullable();
             $table->string('pi_personal_email')->unique()->nullable();
