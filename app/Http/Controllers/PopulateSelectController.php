@@ -75,29 +75,6 @@ class PopulateSelectController extends Controller
         return $result;
     }
 
-    public function religions($selected_id, $is_select_element=true){
-        $result=null;
-
-        $religions = DB::table('ref_religion')
-        ->orderBy('rlgn_name','ASC')
-        ->where('rlgn_id', '!=', 1)
-        ->get();
-
-        if($is_select_element){
-            foreach($religions as $rlgn){
-                $result .= "<option value='".$rlgn->rlgn_id."' ".(($selected_id==$rlgn->rlgn_id) ? "selected" : '').">".$rlgn->rlgn_name."</option>";
-            }
-            $result .= "<option value='1' ".(($selected_id==1) ? "selected" : '').">Others</option>";
-        }
-        else{
-            $religions = json_decode($religions);
-            array_push($religions, ['rlgn_id'=>1, 'rlgn_name'=>'Others']);
-            $result = json_encode($religions);
-        }   
-          
-        return $result;
-    }
-
     public function departments($grade_level, $selected_id, $is_select_element=true){
         $result = null;
         
@@ -115,6 +92,11 @@ class PopulateSelectController extends Controller
         else if(in_array($grade_level, ['1st year (college)', '2nd year (college)', '3rd year (college)', '4th year (college)'])){
             $departments = DB::table('department')
             ->where('gl_id', 4)
+            ->orderBy('dept_name','ASC')
+            ->get();
+        }
+        else if($grade_level == 'all'){
+            $departments = DB::table('department')
             ->orderBy('dept_name','ASC')
             ->get();
         }
@@ -155,5 +137,28 @@ class PopulateSelectController extends Controller
         }   
           
         return $result;
-    }   
+    }  
+    
+    public function religions($selected_id, $is_select_element=true){
+        $result=null;
+
+        $religions = DB::table('ref_religion')
+        ->orderBy('rlgn_name','ASC')
+        ->where('rlgn_id', '!=', 1)
+        ->get();
+
+        if($is_select_element){
+            foreach($religions as $rlgn){
+                $result .= "<option value='".$rlgn->rlgn_id."' ".(($selected_id==$rlgn->rlgn_id) ? "selected" : '').">".$rlgn->rlgn_name."</option>";
+            }
+            $result .= "<option value='1' ".(($selected_id==1) ? "selected" : '').">Others</option>";
+        }
+        else{
+            $religions = json_decode($religions);
+            array_push($religions, ['rlgn_id'=>1, 'rlgn_name'=>'Others']);
+            $result = json_encode($religions);
+        }   
+          
+        return $result;
+    }
 }
