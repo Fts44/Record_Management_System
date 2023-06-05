@@ -70,7 +70,7 @@ class LoginController extends Controller
                             'last_name' => Crypt::encrypt(($acc->pi_lastname) ? $acc->pi_lastname : 'LastName'),
                             'classification' => Crypt::encrypt($acc->pi_classification),
                             'position' => Crypt::encrypt($acc->pi_position),
-                            'profile_picture' => Crypt::encrypt(($acc->pi_photo) ? $acc->pi_middlename : 'default-profile.jpg'),
+                            'profile_picture' => Crypt::encrypt(($acc->pi_photo) ? $acc->pi_photo : null),
                         ];
 
                         Session::put('hsp_user_data', $acc_data);
