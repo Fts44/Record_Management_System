@@ -7,6 +7,7 @@ use App\Http\Controllers\MailerController as Mailer;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Hash;
 use DB;
 use DateTime;
 
@@ -14,17 +15,21 @@ use App\Models\Accounts;
 
 class FunctionController extends Controller
 {
-    public function check_credentials($email, $password){
-        
-    }
+    public function send_email_token($email, $type, $id=null){
 
-    public function send_email_token($email, $type){
-
-        $acc_details = Accounts::from('accounts as acc')
+        if($id==null){
+            $acc_details = Accounts::from('accounts as acc')
             ->join('personal_information as pi', 'acc.acc_id', 'pi.acc_id')
             ->where('pi.pi_personal_email', $email)
             ->orWhere('pi.pi_gsuite_email', $email)
             ->first();
+        }
+        else{
+            $acc_details = Accounts::from('accounts as acc')
+            ->join('personal_information as pi', 'acc.acc_id', 'pi.acc_id')
+            ->where('acc.acc_id', $id)
+            ->first();
+        }
 
         $name = ($acc_details->pi_firstname) ? $acc_details->pi_firstname : $email;
 
@@ -37,7 +42,18 @@ class FunctionController extends Controller
         
             $acc_id = Crypt::encrypt($acc_details->acc_id);
             $acc_token = Crypt::encrypt($acc_details->acc_token);
-            $btn_action_link = route('Authentication.Register.Verify', ['acc_id' => $acc_id, 'acc_token' => $acc_token]);
+
+            if($id==null){
+                $btn_action_link = route('Authentication.Register.Verify', ['acc_id' => $acc_id, 'acc_token' => $acc_token]);
+            }
+            else{
+                $btn_action_link = route('Authentication.Register.Verify.NewEmail',
+                [
+                    'acc_id' => $acc_id, 
+                    'acc_token' => $acc_token, 
+                    'acc_email' => Crypt::encrypt($email)
+                ]);
+            }
         }
         else{
             $title = 'Change your password!';
@@ -46,7 +62,6 @@ class FunctionController extends Controller
             $acc_token = Crypt::encrypt($acc_details->acc_token);
             $btn_action_link = route('Authentication.Recover.Update', ['acc_id' => $acc_id, 'acc_token' => $acc_token]);
         }
-
 
         if($acc_details->acc_token_expr > date('Y-m-d H:i:s')){
             $date1 = new DateTime($acc_details->acc_token_expr);
