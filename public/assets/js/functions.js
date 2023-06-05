@@ -83,10 +83,17 @@ function alert_show(icon, message, type){
     }, 3000);
 }
 
-function reset_input_errors(){
-    $('.invalid-feedback').html('');
-    $('.form-select, .form-control, .my-form-control').removeClass('is-invalid');
-    $('.my-invalid-feedback').html('');
+function reset_input_errors(id=null){
+    if(id==null){
+        $('.invalid-feedback').html('');
+        $('.form-select, .form-control, .my-form-control').removeClass('is-invalid');
+        $('.my-invalid-feedback').html('');
+    }
+    else{
+        $(id+' .invalid-feedback').html('');
+        $(id+' .form-select, .form-control, .my-form-control').removeClass('is-invalid');
+        $(id+' .my-invalid-feedback').html('');
+    }
 }
 
 function clear_select(input, default_text){
