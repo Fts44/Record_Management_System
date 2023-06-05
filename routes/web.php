@@ -16,6 +16,8 @@ Route::name('Authentication.')->prefix('/')->middleware([])->group(function(){
         Route::get('/', [RegisterController::class, 'index'])->name('Index');
         Route::post('/create', [RegisterController::class, 'create'])->name('Create');
         Route::get('/verify/{acc_id}/{acc_token}', [RegisterController::class, 'update'])->name('Verify');
+        // for adding new email on the existing account
+        Route::get('/verify/new-email/{acc_id}/{acc_token}/{acc_email}', [RegisterController::class, 'update_add_email'])->name('Verify.NewEmail');
     });
 
     Route::name('Recover.')->prefix('/recover')->group(function(){
@@ -57,6 +59,7 @@ Route::prefix('/main')->middleware([])->group(function(){
         Route::name('Profile.')->prefix('/profile')->group(function(){
             Route::get('/', [ProfileController::class, 'index'])->name('Index');
             Route::put('/update-basic-information', [ProfileController::class, 'update_personal_information'])->name('PersonalInformation.Update');
+            Route::put('/send-verification-email', [ProfileController::class, 'send_verification_link'])->name('Email.SendVerification');
         });
     });
 
