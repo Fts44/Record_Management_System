@@ -50,6 +50,9 @@
         </div>
         </div>
     </div>
+    
+    <button class="btn btn-primary" id="back-to-top" onclick="topFunction()"><i class="bi bi-arrow-up"></i></button>
+    
     <!-- Scripts -->
     
     <!-- Libs JS -->
