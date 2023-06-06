@@ -308,7 +308,7 @@
                     <div class="card-body">
                         <!-- Personal Email, Gsuite Email -->
 
-                        <div class="row my-4">
+                        <div class="row mt-4">
                             <form id="personal_email_form">
                                 <!-- CSRF Token -->
                                 <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
@@ -654,9 +654,6 @@
                             $('#emails-'+key+'-error').html(err_values);
                             $('#emails-'+key).addClass('is-invalid');
                         });
-                    }
-                    else if(response.status == 200){
-                        // change value of input
                     }
                 },
                 error: function(response){
