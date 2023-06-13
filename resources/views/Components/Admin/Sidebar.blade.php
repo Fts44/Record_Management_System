@@ -22,13 +22,13 @@
             </li>  
 
             <li class="nav-item">
-            <a class="nav-link {{(str_contains(url()->current(),route('Admin.Accounts.Patient.Index')) ) ? 'active' : ''}}"" href="{{ route('Admin.Accounts.Patient.Index') }}">
+            <a class="nav-link {{(str_contains(url()->current(),route('Admin.Accounts.Patient.Index')) ) ? 'active' : ''}}" href="{{ route('Admin.Accounts.Patient.Index') }}">
                     <i class="nav-icon icon-xs me-2 bi bi-person"></i> Patient
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link {{(str_contains(url()->current(),route('Admin.Accounts.Employee.Index')) ) ? 'active' : ''}}"" href="{{ route('Admin.Accounts.Employee.Index') }}">
+                <a class="nav-link {{(str_contains(url()->current(),route('Admin.Accounts.Employee.Index')) ) ? 'active' : ''}}" href="{{ route('Admin.Accounts.Employee.Index') }}">
                     <i class="nav-icon icon-xs me-2 bi bi-people"></i> Employee
                 </a>
             </li>

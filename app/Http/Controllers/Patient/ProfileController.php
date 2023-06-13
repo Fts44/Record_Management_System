@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 
 
 use Illuminate\Support\Facades\Validator;
-use DB;
 use Session;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Crypt;
@@ -26,7 +25,7 @@ use App\Http\Controllers\Authentication\FunctionController as AuthFunction;
 
 class ProfileController extends Controller
 {
-    public function get_user_data($acc_id){
+    public function get_user_data(){
         $acc_id = Crypt::decrypt(Session::get('hsp_user_data')['acc_id']);
 
         $acc = Accounts::from('accounts as acc')
@@ -44,7 +43,7 @@ class ProfileController extends Controller
 
     public function index(){
         $acc_id = Session::get('hsp_user_data')['acc_id'];
-        $acc = $this->get_user_data($acc_id);
+        $acc = $this->get_user_data();
 
         $this->PopulateSelect = new PopulateSelectController;
 
@@ -194,7 +193,7 @@ class ProfileController extends Controller
             catch(\Exception $e){
                 $response = [
                     'title' => 'Failed!',
-                    'message' => 'Failel saving data. '.$e->getMessage(),
+                    'message' => 'Failed saving data. '.$e->getMessage(),
                     'icon' => 'error',
                     'status' => 400
                 ];
@@ -207,13 +206,13 @@ class ProfileController extends Controller
 
         if($request->has('gsuite_email')){
             $rules = [
-                'gsuite_email' => ['required', new GsuiteRule, 'unique:personal_information,pi_gsuite_email']
+                'gsuite_email' => ['required', 'email', new GsuiteRule, 'unique:personal_information,pi_gsuite_email']
             ];
         }
 
         if($request->has('personal_email')){
             $rules = [
-                'personal_email' => ['required', new NotGsuiteRule, 'unique:personal_information,pi_personal_email']
+                'personal_email' => ['required', 'email', new NotGsuiteRule, 'unique:personal_information,pi_personal_email']
             ];
         }
 
