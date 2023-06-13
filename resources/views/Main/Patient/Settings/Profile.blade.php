@@ -400,7 +400,7 @@
                     @method('PUT')
                     <div class="col-12 mb-3">
                         <label class="form-label mb-1" id="update_email-label">New Personal Email</label>
-                        <input type="text" class="form-control mb-1" id="update_email-email" name="">
+                        <input type="text" class="form-control mb-1" id="update_email" name="" onkeydown="return (event.keyCode!=13);">
                         <div class="invalid-feedback mt-1" id="update_email-error"></div>
                     </div>
                     <div class="col-12 text-center">
@@ -454,46 +454,6 @@
         $('#remove_profile_picture').click(function(){
             $("#personal_information-profile_picture").attr("src", profile_picture_src);
             $('#personal_information-profile_picture_input').val('');
-        });
-
-        $('#personal_information_verify-gsuite_email').click(function(){
-            $('#personal_information-gsuite_email-error').html('');
-            $('#personal_information-gsuite_email').removeClass('is-invalid');
-            
-            load_btn('#personal_information_verify-gsuite_email',true);
-            // var formData = new FormData($('#personal_information_form')[0]);
-
-            // $.ajax({
-            //     type: "POST",
-            //     url: "{{ route('Patient.Profile.PersonalInformation.Update') }}",
-            //     contentType: false,
-            //     processData: false,
-            //     data: formData,
-            //     enctype: 'multipart/form-data',
-            //     success: function(response){
-            //         response = JSON.parse(response);
-            //         console.log(response);
-            //         swal(response.title, response.message, response.icon);
-            //         if(response.status == 400){
-            //             $.each(response.errors, function(key, err_values){
-            //                 $('#personal_information-'+key+'-error').html(err_values);
-            //                 $('#personal_information-'+key).addClass('is-invalid');
-            //             });
-            //         }
-            //         else if(response.status == 200){
-            //             $('#personal_information-profile_picture_input').val('');
-            //             $('#header_avatar').attr("src", response.profile_picture_src);
-            //             $('#header_name').html(ucwords($('#personal_information-first_name').val())+" "+ucwords($('#personal_information-last_name').val()));
-            //             $('#header_position').html(ucwords($('#personal_information-position').val()));
-            //             profile_picture_src = response.profile_picture_src;
-            //         }
-            //     },
-            //     error: function(response){
-            //         console.log(response);
-            //     }
-            // }).always(function(){
-            //     load_btn('#personal_information_form_submit',false);
-            // });
         });
 
         var previous_grade_level;
@@ -590,16 +550,20 @@
             });
         });
 
-        $('#emails-personal_email-edit').click(function(){
-            $('#update_email-label').html('New Personal Email');
-            $('#update_email-email').attr('name', 'personal_email');
+        function email_modal_refresh(modal_title, input_name){
+            reset_input_errors('#email_update');
+            $('#update_email-label').html(modal_title);
+            $('#update_email').attr('name', input_name);
+            $('#update_email').val('');
             $('#email_update-email-modal').modal('show');
+        }
+
+        $('#emails-personal_email-edit').click(function(){
+            email_modal_refresh('New Personal Email', 'personal_email');
         }); 
 
         $('#emails-gsuite_email-edit').click(function(){
-            $('#update_email-label').html('New Gsuite Email');
-            $('#update_email-email').attr('name', 'gsuite_email');
-            $('#email_update-email-modal').modal('show');
+            email_modal_refresh('New Gsuite Email', 'gsuite_email');
         }); 
 
         $('#email_update-update').click(function(){
@@ -620,8 +584,8 @@
                     swal(response.title, response.message, response.icon);
                     if(response.status == 400){
                         $.each(response.errors, function(key, err_values){
-                            $('#update_email-'+key+'-error').html(err_values);
-                            $('#update_email-'+key).addClass('is-invalid');
+                            $('#update_email-error').html(err_values);
+                            $('#update_email').addClass('is-invalid');
                         });
                     }
                 },
