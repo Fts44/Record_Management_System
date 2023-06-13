@@ -27,7 +27,7 @@ class LoginController extends Controller
 
         $rules = [
             'userid' => 'required',
-            'password' => ['required', new PasswordRule]
+            'password' => ['required']
         ];
 
         $messages = [
