@@ -38,7 +38,9 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="">
+                <a class="nav-link
+                    {{ (str_contains(url()->current(),route('Patient.Password.Index')) ) ? 'active' : '' }}" 
+                    href="{{ route('Patient.Password.Index') }}">
                     <i class="nav-icon icon-xs me-2 bi bi-gear"></i> Change Password
                 </a>
             </li>

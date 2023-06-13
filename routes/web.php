@@ -49,6 +49,7 @@ Route::name('Populate.')->prefix('/populate')->middleware([])->group(function(){
 
 use App\Http\Controllers\Patient\ProfileController;
 use App\Http\Controllers\Patient\EmergencyContactController;
+use App\Http\Controllers\Patient\PasswordController;
 
 use App\Http\Controllers\Admin\Accounts\PatientController;
 use App\Http\Controllers\Admin\Accounts\EmployeeController;
@@ -66,6 +67,11 @@ Route::prefix('/main')->middleware([])->group(function(){
         Route::name('EmergencyContact.')->prefix('/emergency-contact')->group(function(){
             Route::get('/', [EmergencyContactController::class, 'index'])->name('Index');
             Route::put('/update', [EmergencyContactController::class, 'update'])->name('Update');
+        });
+
+        Route::name('Password.')->prefix('/password')->group(function(){
+            Route::get('/', [PasswordController::class, 'index'])->name('Index');
+            Route::put('/update', [PasswordController::class, 'update'])->name('Update');
         });
     });
 
