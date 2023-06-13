@@ -22,13 +22,17 @@
             </li>  
 
             <li class="nav-item">
-                <a class="nav-link active" href="">
+                <a class="nav-link
+                    {{ (str_contains(url()->current(),route('Patient.Profile.Index')) ) ? 'active' : '' }}" 
+                    href="{{ route('Patient.Profile.Index') }}">
                     <i class="nav-icon icon-xs me-2 bi bi-person"></i> Profile
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="">
+                <a class="nav-link
+                    {{ (str_contains(url()->current(),route('Patient.EmergencyContact.Index')) ) ? 'active' : '' }}" 
+                    href="{{ route('Patient.EmergencyContact.Index') }}">
                     <i class="nav-icon icon-xs me-2 bi bi-telephone"></i> Emergency Contact
                 </a>
             </li>

@@ -37,6 +37,7 @@ return new class extends Migration
             $table->string('pi_photo')->nullable();
             $table->integer('ttl_id')->nullable();
             $table->string('pi_signature')->nullable();
+            $table->integer('ec_id')->unique()->nullable();
         });
     }
 
