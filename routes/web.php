@@ -48,6 +48,7 @@ Route::name('Populate.')->prefix('/populate')->middleware([])->group(function(){
 
 
 use App\Http\Controllers\Patient\ProfileController;
+use App\Http\Controllers\Patient\EmergencyContactController;
 
 use App\Http\Controllers\Admin\Accounts\PatientController;
 use App\Http\Controllers\Admin\Accounts\EmployeeController;
@@ -60,6 +61,11 @@ Route::prefix('/main')->middleware([])->group(function(){
             Route::get('/', [ProfileController::class, 'index'])->name('Index');
             Route::put('/update-basic-information', [ProfileController::class, 'update_personal_information'])->name('PersonalInformation.Update');
             Route::put('/send-verification-email', [ProfileController::class, 'send_verification_link'])->name('Email.SendVerification');
+        });
+
+        Route::name('EmergencyContact.')->prefix('/emergency-contact')->group(function(){
+            Route::get('/', [EmergencyContactController::class, 'index'])->name('Index');
+            Route::put('/update', [EmergencyContactController::class, 'update'])->name('Update');
         });
     });
 
