@@ -1,4 +1,5 @@
 $(function() {
+    // don't forget to put "d-none" on class div#content
 
     // check if there is a nav-link on the html page
     if ($("#content a.nav-link").length > 0){ 
