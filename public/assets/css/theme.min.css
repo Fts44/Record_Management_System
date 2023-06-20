@@ -28417,6 +28417,15 @@ img.profile-picture-preview.is-invalid {
     font-family: "Inter", sans-serif;
 }
 
+.nav-tabs .nav-item .nav-link {
+    color: #637381;
+    font-weight: 400;
+}
+
+.nav-tabs .nav-item .nav-link.active{
+    font-weight: 600;
+}
+
 /* =============================
     dataTables
 ============================= */
