@@ -17,40 +17,47 @@ class PatientController extends Controller
     public function get_patient_list(){
         $accounts = Accounts::from('accounts as acc')
             ->join('personal_information as pi', 'acc.acc_id', 'pi.acc_id')
+            ->leftjoin('department as dept', 'pi.dept_id', 'dept.dept_id')
+            ->leftjoin('program as prog', 'pi.prog_id', 'prog.prog_id')
             ->where('acc.acc_is_verified', 1)
             ->where('acc.acc_is_blocked', 0)
             ->where('pi.pi_classification', '!=', 'infirmary personnel')
-            ->select('acc.acc_id', 'pi.pi_personal_email', 'pi.pi_gsuite_email', 'pi.pi_classification', 'pi.pi_position', 'acc.acc_created_date')
             ->get();
 
         $records = array();
         foreach($accounts as $acc){
             $rows = array();
             $rows['acc_id'] = sprintf("%05d",$acc->acc_id);
-            $rows['acc_profile_pic'] = '<img class="rounded-circle table-img" src="'.asset('assets/photos/default-profile.jpg').'">';
-            $rows['acc_name'] = ucwords("Name here");
-    
-            if($acc->pi_gsuite_email && $acc->pi_personal_email){
-                $rows['acc_email'] = 
-                '<li>'.$acc->pi_gsuite_email.'</li>
-                <li>'.$acc->pi_personal_email.'</li>';
+            $rows['acc_profile_pic'] =   '<img class="rounded-circle table-img" src="'.(($acc->pi_photo) ? asset('storage/photos/'.$acc->pi_photo) : asset('assets/photos/default-profile.jpg')).'">';
+            
+            if($acc->pi_firstname){
+                $rows['acc_name'] = ucwords($acc->pi_firstname.' '.($acc->pi_middlename ?: '').' '.$acc->pi_lastname);
             }
             else{
-                $rows['acc_email'] =
-                '<li>'.(($acc->pi_gsuite_email) ? $acc->pi_gsuite_email : $acc->pi_personal_email).'</li>';
+                $rows['acc_name'] = ucwords("Not set");
             }
 
-            $rows['acc_department'] = 'dept';
-            $rows['acc_program'] = 'program';
-            $rows['acc_year_level'] = 'year level';
+            if($acc->pi_gsuite_email && $acc->pi_personal_email){
+                $rows['acc_email'] = 
+                    '<li>'.$acc->pi_gsuite_email.'</li>
+                    <li>'.$acc->pi_personal_email.'</li>';
+            }
+            else{
+                $rows['acc_email'] = '<li>'.($acc->pi_gsuite_email ?: $acc->pi_personal_email).'</li>';
+            }
+
+            $rows['acc_department'] = $acc->dept_code ?: 'Not Set';
+            $rows['acc_program'] = $acc->prog_code ?: 'Not Set';
+            $rows['acc_year_level'] = $acc->pi_grade_level ?: 'Not Set';
            
             $rows['acc_position'] = ucwords($acc->pi_position);
             $rows['acc_classification'] = ucwords($acc->pi_classification);
             $rows['acc_join_date'] = date_format(date_create($acc->acc_created_date), 'M d, Y');
 
-            $update = '<button type="button" class="btn btn-primary btn-sm" id="view_btn_'.$acc->acc_id.'" onclick="view(`#view_btn_'.$acc->acc_id.'`,`'.Crypt::encrypt($acc->acc_id).'`)"><label>View</label></button>';
+
+            $view = "<a class='btn btn-primary btn-sm' href='".route('Admin.Accounts.Details.Index', ['acc_id' => Crypt::encrypt($acc->acc_id)])."'>View</a>";
             $delete = '<button type="button" class="btn btn-danger btn-sm" id="block_btn_'.$acc->acc_id.'" onclick="block(`#block_btn_'.$acc->acc_id.'`,`'.$acc->acc_id.'`)"><label>Block</label></button>';
-            $rows['action'] = $update." ".$delete;
+            $rows['action'] = $view." ".$delete;
             $records[] = $rows;
         }
 

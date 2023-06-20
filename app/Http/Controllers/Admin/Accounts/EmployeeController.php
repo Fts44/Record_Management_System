@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin\Accounts;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use Session;
+
 use App\Models\Accounts;
 use App\Models\PersonalInformation;
 
@@ -20,6 +22,7 @@ class EmployeeController extends Controller
         ->where('acc.acc_is_verified', 1)
         ->where('acc.acc_is_blocked', 0)
         ->where('pi.pi_classification', 'infirmary personnel')
+        ->where('acc.acc_id', '!=', Crypt::decrypt(Session::get('hsp_user_data')['acc_id']))
         ->select('acc.acc_id', 'pi.pi_personal_email', 'pi.pi_gsuite_email', 'pi.pi_classification', 'pi.pi_position', 'acc.acc_created_date')
         ->get();
 
@@ -27,9 +30,15 @@ class EmployeeController extends Controller
         foreach($accounts as $acc){
             $rows = array();
             $rows['acc_id'] = sprintf("%05d",$acc->acc_id);
-            $rows['acc_profile_pic'] = '<img class="rounded-circle table-img" src="'.asset('assets/photos/default-profile.jpg').'">';
-            $rows['acc_name'] = ucwords("Name here");
-    
+            $rows['acc_profile_pic'] = '<img class="rounded-circle table-img" src="'.(($acc->pi_photo) ? asset('storage/photos/'.$acc->pi_photo) : asset('assets/photos/default-profile.jpg')).'">';
+            
+            if($acc->pi_firstname){
+                $rows['acc_name'] = ucwords($acc->pi_firstname.' '.($acc->pi_middlename ?: '').' '.$acc->pi_lastname);
+            }
+            else{
+                $rows['acc_name'] = ucwords("Not set");
+            }
+
             if($acc->pi_gsuite_email && $acc->pi_personal_email){
                 $rows['acc_email'] = 
                 '<li>'.$acc->pi_gsuite_email.'</li>
@@ -57,12 +66,6 @@ class EmployeeController extends Controller
 
     public function index(){
         return view('Main.Admin.Accounts.Employee');
-    }
-
-    public function view(Request $request){
-        
-        $acc_id = Crypt::decrypt($request->acc_id);
-        echo $acc_id;
     }
 
     public function block(Request $request){
