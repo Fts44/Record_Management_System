@@ -36,7 +36,9 @@
       <div id="page-content">
         @stack('Header')
 
-        @yield('Content')
+        <div id="content" class="d-none">
+          @yield('Content')
+        </div>
       </div>
 
       <button class="btn btn-primary" id="back-to-top" onclick="topFunction()"><i class="bi bi-arrow-up"></i></button>
@@ -68,6 +70,8 @@
     <script src="{{ asset('assets/js/functions.js') }}"></script>
     <script src="{{ asset('assets/js/dataTables.js') }}"></script>
 
+    <!-- nav-tabs selector  -->
+    <script src="{{ asset('assets/js/NavTabSelector.js') }}"></script>
     <script>
 
       // redraw the table when the toggle button is click
