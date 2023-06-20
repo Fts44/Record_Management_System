@@ -87,31 +87,6 @@
             });
         });
 
-        function view(btn_id, acc_id){
-
-            var url = "{{ route('Admin.Accounts.Unverified.Data.Update', ['acc_id' => '%acc_id%']) }}".replace('%acc_id%', acc_id);
-            load_btn(btn_id, true);
-
-            $.ajax({
-                type: "PUT",
-                url: url,
-                data : { 
-                    _token: "{{ csrf_token() }}" 
-                },
-                enctype: 'multipart/form-data',
-                success: function(response){
-                    response = JSON.parse(response);
-                    console.log(response);
-                    table.ajax.reload(alert_show(response.icon, response.message), false);
-                },
-                error: function(response){
-                    console.log(response);
-                }
-            }).always(function(){
-                load_btn(btn_id,false);
-            });
-        }
-
         function unblock(btn_id, acc_id){
             id = leftPad(acc_id, 5);
             swal({

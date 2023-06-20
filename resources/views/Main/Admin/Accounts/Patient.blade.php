@@ -90,12 +90,7 @@
                 table.ajax.reload(alert_show('success', 'Table data refresh!'), false);           
             });
         });
-
-        function view(btn_id, acc_id){
-            var url = "{{ route('Admin.Accounts.Employee.Data.View', ['acc_id' => '%acc_id%']) }}".replace('%acc_id%', acc_id)
-            window.location.href = url;
-        }
-
+        
         function block(btn_id, acc_id){
             id = leftPad(acc_id, 5);
             swal({

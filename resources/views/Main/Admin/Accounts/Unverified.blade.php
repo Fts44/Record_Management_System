@@ -40,6 +40,7 @@
                             <thead class="table-light">
                                 <th scope="col">ID</th>
                                 <th scope="col">Email</th>
+                                <th scope="col">Email Verification</th>
                                 <th scope="col">Position</th>
                                 <th scope="col">Classification</th>
                                 <th scope="col">Data Created</th>
@@ -71,6 +72,7 @@
                 columns: [
                     { data: 'acc_id' },
                     { data: 'acc_email' },
+                    { data: 'acc_email_verification' },
                     { data: 'acc_position' },
                     { data: 'acc_classification' },
                     { data: 'acc_created_date' },
