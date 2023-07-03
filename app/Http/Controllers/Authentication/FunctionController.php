@@ -119,4 +119,9 @@ class FunctionController extends Controller
         return $status;
     }   
 
+    public function change_acc_update_date($acc_id){
+        $acc_main = Accounts::where('acc_id', $acc_id)->first();
+        $acc_main->acc_info_last_update = now();
+        $acc_main->save();
+    }
 }
