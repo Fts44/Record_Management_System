@@ -12,11 +12,14 @@
     <!-- Libs CSS -->
     <link href="{{ asset('assets/libs/bootstrap-icons/font/bootstrap-icons.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/libs/dropzone/dist/dropzone.css') }}"  rel="stylesheet">
-    <link href="{{ asset('assets/libs/@mdi/font/css/materialdesignicons.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/libs/@mdi/font/css/materialdesignicons.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/libs/prismjs/themes/prism-okaidia.css') }}" rel="stylesheet">
 
     <!-- Theme CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/theme.min.css') }}">
+
+    <!-- toast CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/jquery-toast-plugin@1.3.2/dist/jquery.toast.min.css" rel="stylesheet">
 
     <!-- DataTables -->
     <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css"> -->
@@ -61,6 +64,9 @@
 
     <!-- swal -->
     <script src="{{ asset('assets/js/sweetalert.min.js') }}"></script>
+    
+    <!-- toast popup -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery-toast-plugin@1.3.2/dist/jquery.toast.min.js"></script> -->
 
     <!-- dataTables -->
     <script src="{{ asset('assets/libs/dataTables/dataTables.min.js') }}"></script>
