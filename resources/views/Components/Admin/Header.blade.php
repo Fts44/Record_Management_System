@@ -1,3 +1,22 @@
+@php 
+    $first_name = ucwords(\Crypt::decrypt(Session::get('hsp_user_data')['first_name']));
+    $middle_name = ucwords(\Crypt::decrypt(Session::get('hsp_user_data')['middle_name']));
+    $last_name = ucwords(\Crypt::decrypt(Session::get('hsp_user_data')['last_name']));
+    $acc_type = ucwords(\Crypt::decrypt(Session::get('hsp_user_data')['acc_type']));
+    $position = ucwords(\Crypt::decrypt(Session::get('hsp_user_data')['position']));
+    $profile_picture = \Crypt::decrypt(Session::get('hsp_user_data')['profile_picture']);
+
+    // check if there is missing data and add to notif
+    $notification = [];
+    if($profile_picture == 'default-profile.jpg'){
+        $notification['incomplete_data']['personal_information'] = true;
+    }
+
+    if($profile_picture == 'default-profile.jpg'){
+        $notification['incomplete_data']['emergency_contact'] = true;
+    }
+@endphp
+
 <div class="header @@classList">
     <!-- navbar -->
     <nav class="navbar-classic navbar navbar-expand-lg">
@@ -77,8 +96,8 @@
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUser">
                     <div class="px-4 pb-0 pt-2">
                         <div class="lh-1">
-                            <h5 class="mb-1 display-name">Firstname M. Lastname</h5>
-                            <span class="text-inherit fs-6">Admin</span>
+                            <h5 class="mb-1 display-name">{{ $first_name.' '.$last_name }}</h5>
+                            <span class="text-inherit fs-6">{{ ($acc_type=='Standard') ? $position : $acc_type }}</span>
                         </div>
                         <div class=" dropdown-divider mt-3 mb-2"></div>
                     </div>

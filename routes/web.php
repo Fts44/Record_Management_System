@@ -55,6 +55,10 @@ use App\Http\Controllers\Admin\Accounts\PatientController;
 use App\Http\Controllers\Admin\Accounts\EmployeeController;
 use App\Http\Controllers\Admin\Accounts\UnverifiedController;
 use App\Http\Controllers\Admin\Accounts\BlockedController;
+use App\Http\Controllers\Admin\Accounts\AccountDetailsController;
+
+use App\Http\Controllers\Admin\ElectronicRecords\ElectronicRecordController;
+use App\Http\Controllers\Admin\ElectronicRecords\MedicalRequestSlipController;
 
 Route::prefix('/main')->middleware([])->group(function(){
     Route::name('Patient.')->prefix('/patient')->group(function(){
@@ -104,7 +108,6 @@ Route::prefix('/main')->middleware([])->group(function(){
             Route::name('Employee.')->prefix('/employee')->group(function(){
                 Route::get('/', [EmployeeController::class, 'index'])->name('Index');
                 Route::get('/list', [EmployeeController::class, 'get_employee_list'])->name('Data.Index');
-                Route::get('/view/{acc_id}', [EmployeeController::class, 'view'])->name('Data.View');
                 Route::put('/block/{acc_id}', [EmployeeController::class, 'block'])->name('Data.Block');
             });
 
@@ -112,6 +115,20 @@ Route::prefix('/main')->middleware([])->group(function(){
                 Route::get('/', [BlockedController::class, 'index'])->name('Index');
                 Route::get('/list', [BlockedController::class, 'get_blocked_list'])->name('Data.Index');
                 Route::put('/unblock/{acc_id}', [BlockedController::class, 'unblock'])->name('Data.Unblock');
+            });
+
+            Route::name('Details.')->prefix('/details')->group(function(){
+                Route::get('/{acc_id}', [AccountDetailsController::class, 'index'])->name('Index');
+                Route::get('/records/{acc_id}', [ElectronicRecordController::class, 'get_record_list'])->name('Record');
+            });
+        });
+
+        Route::name('ElectronicRecords.')->prefix('/electronic-recrods')->group(function(){
+            Route::name('MedicalRequestSlip.')->prefix('/medical-request-slip')->group(function(){
+                Route::post('/{acc_id}', [MedicalRequestSlipController::class, 'create'])->name('Create');
+                Route::post('/details/{mrs_id}', [MedicalRequestSlipController::class, 'details'])->name('Details');
+                Route::put('/details/update/{mrs_id}', [MedicalRequestSlipController::class, 'update'])->name('Update');
+                Route::delete('/details/delete/{mrs_id}', [MedicalRequestSlipController::class, 'delete'])->name('Delete');
             });
         });
 
