@@ -110,7 +110,7 @@
                         success: function(response){
                             response = JSON.parse(response);
                             console.log(response);
-                            table.ajax.reload(alert_show(response.icon, response.message), false);                          
+                            table.ajax.reload(toast(response.title, response.message, response.icon), false);                          
                         },
                         error: function(response){
                             console.log(response);
