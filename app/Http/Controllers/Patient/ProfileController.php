@@ -92,7 +92,7 @@ class ProfileController extends Controller
             'sex' => ['required', 'in:female,male'],
             'civil_status' => ['required', 'in:single,married,separated,widowed'],
             'religion' => 'required',
-            'contact_number' => 'required',
+            'contact_number' => ['required', 'unique:personal_information,pi_contact_no'],
             'position' => ['required', 'in:student,teacher,school personnel'],
             'province' => 'required',
             'city' => 'required',
@@ -158,6 +158,7 @@ class ProfileController extends Controller
                     $acc->pi_photo = $file_name;
                 }
                    
+                // updating personal information
                 $acc->pi_firstname = $request->first_name;
                 $acc->pi_middlename = $request->middle_name;
                 $acc->pi_lastname = $request->last_name;
@@ -172,6 +173,10 @@ class ProfileController extends Controller
                 $acc->rlgn_id = $request->religion;
                 $acc->pi_position = $request->position;
                 $acc->save();
+
+                // update modified date
+                $AuthFunction = new AuthFunction();
+                $AuthFunction->change_acc_update_date($acc_id);
 
                 // Updating session data
                 $acc_data = Session::get('hsp_user_data');
