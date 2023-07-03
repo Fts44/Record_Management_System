@@ -39,7 +39,9 @@ function toast(title, message, icon){
         text: message,
         icon: icon,
         showHideTransition: 'slide',
-        position: 'top-left',
+        position: 'top-right',
+        stack: 3,
+        loader: true,       
     });
 }
 
@@ -83,6 +85,59 @@ function alert_show(icon, message, type){
     }, 3000);
 }
 
+var touch_time = 0;
+function un_lock_field(element){
+    if (touch_time == 0){
+        touch_time = new Date().getTime();
+    }
+    else{
+        if (((new Date().getTime()) - touch_time) < 500) {
+            touch_time = 0;
+            if(element.siblings('input, select').attr('disabled') || element.siblings().find('input').attr('disabled')){
+                element.siblings('input, select').attr('disabled', false);
+                element.siblings().find('input, select').attr('disabled', false);
+            }
+            else{
+                element.siblings('input, select').attr('disabled', '');
+                element.siblings().find('input, select').attr('disabled', '');
+            } 
+        } else {
+            touch_time = new Date().getTime();
+        }
+    } 
+}
+
+function disable_if_not_empty(element, disable_all=false){
+    if(disable_all == false){
+        var prev_checkbox_class = "";
+        $(element).find('input, select').each(function(){
+            // if the input is checkbox
+            if($(this).is(':checkbox')){
+                // if secondary class is not equals to last class or if the checkbox is checked
+                if(prev_checkbox_class != $(this).attr('class').split(' ')[1] || $(this).is(":checked")){
+                    if($(this).is(":checked")){
+                        // find checkbox that has same second class attribute and disable it
+                        $(element).find('input[type="checkbox"][class*="'+$(this).attr('class').split(' ')[1]+'"]').attr('disabled', true);
+                    }
+                    else{
+                        // find checkbox that has same second class attribute and enable it
+                        $(element).find('input[type="checkbox"][class*="'+$(this).attr('class').split(' ')[1]+'"]').attr('disabled', false);
+                    }
+                    prev_checkbox_class = $(this).attr('class').split(' ')[1];
+                }
+            }
+            else{
+                $(this).attr('disabled', $(this).val().length ? true : false);
+            }
+        });
+    }
+    else{
+        $(element).find('input, select').each(function(){
+            $(this).attr('disabled', true);
+        });
+    }
+}
+
 function reset_input_errors(id=null){
     if(id==null){
         $('.invalid-feedback').html('');
@@ -102,21 +157,6 @@ function clear_select(input, default_text){
         value: '',
         text: default_text
     }));
-}
-
-function ucwords(str){
-	var result = str.toLowerCase().replace(/\b[a-z]/g, function(letter) {
-    	return letter.toUpperCase();
-	});
-	return result;
-}
-
-function leftPad(number, targetLength) {
-    var output = number + '';
-    while (output.length < targetLength) {
-        output = '0' + output;
-    }
-    return output;
 }
 
 function set_municipalities(select_mun, prov_id, mun_id, select_brgy){
@@ -224,4 +264,34 @@ function ucwords(str){
     	return letter.toUpperCase();
 	});
 	return result;
+}
+
+function leftPad(number, targetLength) {
+    var output = number + '';
+    while (output.length < targetLength) {
+        output = '0' + output;
+    }
+    return output;
+}
+
+function form_to_json(element){
+    var data = new Object();
+
+    $(element).find('input, select').each(function(){
+        // if the input is checkbox and is checked or the input is not check box but has value
+        if(($(this).is(':checkbox') && $(this).is(':checked')) || (!$(this).is(':checkbox') && $(this).val() != '')){
+            // if the attr name is already in data array, combine data
+            if(data[$(this).attr('name')]){
+                array_data = [].concat(data[$(this).attr('name')]);
+                array_data = array_data.concat([$(this).val()]);
+                data[$(this).attr('name')] = array_data;
+            }
+            // if not in data array, insert
+            else{
+                data[$(this).attr('name')] = $(this).val(); 
+            }
+        }
+    });
+
+    return data;
 }

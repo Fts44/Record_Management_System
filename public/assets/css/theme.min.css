@@ -1,5 +1,5 @@
 @charset "UTF-8";
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&Braah+One:wght@100;200;300;400;500;600;700;800;900&family=Fredoka:wght@300;400;500;600;700&&family=Nunito:wght@400;500;600;700;display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800&display=swap');
 
 .filter-invert-white {
     filter: brightness(0) invert(1)
@@ -4505,7 +4505,7 @@ textarea.form-control.is-invalid {
     --bs-btn-padding-y         : 0.5rem;
     --bs-btn-font-family       : ;
     --bs-btn-font-size         : 0.9375rem;
-    --bs-btn-font-weight       : 500;
+    --bs-btn-font-weight       : 400;
     --bs-btn-line-height       : 1.5;
     --bs-btn-color             : #637381;
     --bs-btn-bg                : transparent;
@@ -8248,7 +8248,10 @@ fieldset:disabled .btn {
 
 .modal-title {
     line-height  : var(--bs-modal-title-line-height);
-    margin-bottom: 0
+    margin-bottom: 0;
+    font-family: "Inter", sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
 }
 
 .modal-body {
@@ -27078,7 +27081,7 @@ fieldset:disabled .btn {
     align-items       : center;
     color             : #919eab;
     display           : flex;
-    font-weight       : 500;
+    font-weight       : 300;
     line-height       : 1.8;
     padding           : .5rem 1.5rem;
     -webkit-transition: all .5s;
@@ -28426,9 +28429,34 @@ img.profile-picture-preview.is-invalid {
     font-weight: 600;
 }
 
+.modal .btn {
+    font-size: .85rem;
+}
+
+input.form-control[readonly]:focus {
+    background-color: #fff;
+    border-color    : var(--bs-danger);
+    box-shadow      : 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(220, 53, 69, .9);
+    color           : #637381;
+    outline         : 0
+}
+
+form .form-label {
+    cursor: pointer;
+}
 /* =============================
     dataTables
 ============================= */
+::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 8px;
+    height: 10px;
+}
+  
+::-webkit-scrollbar-thumb {
+    background-color: #bbbdc2;
+    box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+}
 
 th, table tr td {
     white-space: nowrap;
@@ -28438,8 +28466,14 @@ th, table tr td {
     margin-bottom: 10px;
 }
 
-table tr td .btn {
-    min-width: 5rem;
+table tr td .btn{
+    padding-left: calc(var(--bs-card-title-spacer-y)*.5);
+    padding-right: calc(var(--bs-card-title-spacer-y)*.5);
+    min-width: 80px;
+}
+
+.modal .btn{
+    min-width: 100px;
 }
 
 table img {
