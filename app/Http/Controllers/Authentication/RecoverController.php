@@ -132,17 +132,26 @@ class RecoverController extends Controller
             $password = $request->new_password;
             
             $acc = Accounts::where('acc_id', $acc_id)->where('acc_token', $acc_token)->first();
-            $acc->acc_password = $password;
+            $acc->acc_password = Hash::make($password);
             $acc->acc_token = Hash::make($request->email);
-            $acc->save();
-      
-            $response = [
-                'title' => 'Success!',
-                'message' => 'Your password is updated!',
-                'icon' => 'success',
-                'status' => 302,
-                'redirect_to' => route('Authentication.Login.Index')
-            ];
+            
+            if($acc->save()){
+                $response = [
+                    'title' => 'Success!',
+                    'message' => 'Your password is updated!',
+                    'icon' => 'success',
+                    'status' => 302,
+                    'redirect_to' => route('Authentication.Login.Index')
+                ];
+            }
+            else{
+                $response = [
+                    'title' => 'Failed!',
+                    'message' => 'Your recovery link is not updated!',
+                    'icon' => 'error',
+                    'status' => 400
+                ];
+            };
         }  
         echo json_encode($response);
     }

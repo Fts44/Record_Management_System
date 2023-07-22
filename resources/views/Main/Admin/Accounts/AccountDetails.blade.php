@@ -197,10 +197,10 @@
                                 <i class="bi bi-plus-lg"></i> Create New 
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="btn_create_new" id="create_new_dropdown">
-                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#er_modal-medical_request_slip" id="">Dental Certificate</a></li>
-                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#er_modal-medical_request_slip" id="">Excuse Slip</a></li>
-                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#er_modal-medical_request_slip" id="">Medical Certificate</a></li>
-                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#er_modal-medical_request_slip" id="">Medical Referral</a></li>
+                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#er_modal-dental_certificate" id="create_new-dental_certificate">Dental Certificate</a></li>
+                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#er_modal-" id="">Excuse Slip</a></li>
+                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#er_modal-" id="">Medical Certificate</a></li>
+                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#er_modal-" id="">Medical Referral</a></li>
                                 <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#er_modal-medical_request_slip" id="create_new-medical_request_slip">Medical Request Slip</a></li>
                             </ul>
                         </div>
@@ -254,5 +254,29 @@
         });
     </script>
     
+    @php 
+        //session variable
+        $first_name = ucwords(\Crypt::decrypt(Session::get('hsp_user_data')['first_name']));
+        $middle_name = ucwords(\Crypt::decrypt(Session::get('hsp_user_data')['middle_name'])); 
+        $last_name = ucwords(\Crypt::decrypt(Session::get('hsp_user_data')['last_name']));
+
+        if($acc->pi_firstname && $acc->pi_lastname){
+            $name = $acc->pi_firstname.(($acc->pi_middlename) ? ' '.$acc->pi_middlename[0].'. ' : ' ').$acc->pi_lastname;
+        }
+        else{
+            $name = null;
+        }
+
+        $sexes = ['female', 'male']; 
+        $civil_status = ['single', 'married', 'separated', 'widowed'];
+
+        // variable in account details blade
+        $birthdate = $acc->pi_birthdate; 
+        $today = date('Y-m-d');
+        $age = ($acc->pi_birthdate) ? date_diff(date_create($birthdate), date_create($today))->format('%y') : '';
+        $address = ($acc->add_id) ? ($acc->brgy_name.','.$acc->mun_name.','.$acc->prov_name) : '';
+    @endphp 
     @include('Components.Admin.ERModal.MedicalRequestSlip')
+    @include('Components.Admin.ERModal.DentalCertificate')
+    @include('Components.Admin.ERModal.PDFViewer')
 @endpush

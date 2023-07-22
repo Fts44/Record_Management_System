@@ -34,7 +34,7 @@ class UnverifiedController extends Controller
             $update = '';
             $delete = '<button type="button" class="btn btn-danger btn-sm" id="delete_btn_'.$acc->acc_id.'" onclick="remove(`#delete_btn_'.$acc->acc_id.'`,`'.$acc->acc_id.'`)"><label>Delete</label></button>';
             
-            if($acc->acc_is_verified){
+            if(!$acc->acc_is_verified){
                 $update = '<button type="button" class="btn btn-primary btn-sm" id="update_btn_'.$acc->acc_id.'" onclick="accept(`#update_btn_'.$acc->acc_id.'`,`'.$acc->acc_id.'`)"><label>Accept</label></button>';
             }
 

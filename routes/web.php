@@ -59,6 +59,7 @@ use App\Http\Controllers\Admin\Accounts\AccountDetailsController;
 
 use App\Http\Controllers\Admin\ElectronicRecords\ElectronicRecordController;
 use App\Http\Controllers\Admin\ElectronicRecords\MedicalRequestSlipController;
+use App\Http\Controllers\Admin\ElectronicRecords\DentalCertificateController;
 
 Route::prefix('/main')->middleware([])->group(function(){
     Route::name('Patient.')->prefix('/patient')->group(function(){
@@ -123,12 +124,19 @@ Route::prefix('/main')->middleware([])->group(function(){
             });
         });
 
-        Route::name('ElectronicRecords.')->prefix('/electronic-recrods')->group(function(){
+        Route::name('ElectronicRecords.')->prefix('/electronic-records')->group(function(){
             Route::name('MedicalRequestSlip.')->prefix('/medical-request-slip')->group(function(){
                 Route::post('/{acc_id}', [MedicalRequestSlipController::class, 'create'])->name('Create');
                 Route::post('/details/{mrs_id}', [MedicalRequestSlipController::class, 'details'])->name('Details');
                 Route::put('/details/update/{mrs_id}', [MedicalRequestSlipController::class, 'update'])->name('Update');
                 Route::delete('/details/delete/{mrs_id}', [MedicalRequestSlipController::class, 'delete'])->name('Delete');
+            });
+
+            Route::name('DentalCertificate.')->prefix('/dental-certificate')->group(function(){
+                Route::post('/{acc_id}', [DentalCertificateController::class, 'create'])->name('Create');
+                Route::post('/details/{dc_id}', [DentalCertificateController::class, 'details'])->name('Details');
+                Route::put('/details/update/{dc_id}', [DentalCertificateController::class, 'update'])->name('Update');
+                Route::delete('/details/delete/{dc_id}', [DentalCertificateController::class, 'delete'])->name('Delete');
             });
         });
 

@@ -12,6 +12,7 @@ use App\Models\ElectronicRecord;
 use App\Models\DocumentType;
 
 use Illuminate\Support\Facades\Crypt;
+use PDF;
 
 class AccountDetailsController extends Controller
 {
@@ -48,9 +49,12 @@ class AccountDetailsController extends Controller
     public function index(Request $request){
         $acc = $this->get_user_data(Crypt::decrypt($request->acc_id));
   
-        return view('Main.Admin.Accounts.AccountDetails')
-            ->with([
-                'acc' => $acc
-            ]);
+        // $pdf = PDF::loadView('Forms.MedicalRequestSlip', compact('acc'));
+        // $pdf->set_option('isHtml5ParserEnabled', true);
+        // $pdf->set_paper(array(0, 0, 612.00, 792.00), 'portrait');
+        // return $pdf->stream();
+
+        // return view('Forms.MedicalRequestSlip', compact('acc'));
+        return view('Main.Admin.Accounts.AccountDetails', compact('acc'));
     }
 }
