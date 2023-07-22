@@ -19,11 +19,11 @@ class EmergencyContactController extends Controller
 {
     public function get_emergency_contact_data(){
         $acc_id = Crypt::decrypt(Session::get('hsp_user_data')['acc_id']);
-
-        $acc = EmergencyContact::from('emergency_contact as ec')
-            ->select('ec.*', 'rp.*', 'rm.*', 'rb.*')
+        
+        $acc = PersonalInformation::from('personal_information as pi')
+            ->select('ec.*', 'rp.*', 'rm.*', 'rb.*', 'pi.acc_id')
             ->where('pi.acc_id', $acc_id)
-            ->join('personal_information as pi', 'ec.ec_id', 'pi.ec_id')
+            ->leftjoin('emergency_contact as ec', 'ec.ec_id', 'pi.ec_id')
             ->leftjoin('address as addr', 'ec.add_id', 'addr.add_id')
             ->leftjoin('ref_add_prov as rp', 'addr.prov_id', 'rp.prov_id')
             ->leftjoin('ref_add_mun as rm', 'addr.mun_id', 'rm.mun_id')
@@ -86,21 +86,19 @@ class EmergencyContactController extends Controller
                 $acc_id = Crypt::decrypt(Session::get('hsp_user_data')['acc_id']);
 
                 $ec = EmergencyContact::from('emergency_contact as ec')
-                    ->select('ec.*')
+                    ->select('ec.*', 'pi.acc_id')
                     ->where('pi.acc_id', $acc_id)
-                    ->join('personal_information as pi', 'ec.ec_id', 'pi.ec_id')
+                    ->leftjoin('personal_information as pi', 'ec.ec_id', 'pi.ec_id')
                     ->first();
 
-                $add = Address::where('add_id', $ec->add_id)->first();
-        
                 // if ec query is empty, create new insert emergency_contact query
+                // if ec_add_id query is null, create new insert address
                 if(!$ec){
                     $ec = new EmergencyContact;
-                }
-                  
-                // if ec_add_id query is null, create new insert address
-                if(!$ec->add_id){
                     $add = new Address;
+                }
+                else{
+                    $add = Address::where('add_id', $ec->add_id)->first();
                 }
 
                 $add->prov_id = $request->province;
