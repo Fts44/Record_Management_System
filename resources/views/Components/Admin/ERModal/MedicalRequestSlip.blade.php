@@ -6,7 +6,7 @@
     <div class="modal-content">
       
       <div class="modal-header">
-        <span class="modal-title" id="er_modal_label-medical_request_slip">Medical Request Slip</span>
+        <span class="modal-title" id="er_modal_label-medical_request_slip">Medical Request Slip <span id="er_modal-medical_request_slip-id"></span></span>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
@@ -19,14 +19,6 @@
           <input type="hidden" name="_method" id="er_modal-medical_request_slip-form-_method" value="POST">
 
           <div class="row">
-              @php 
-                if($acc->pi_firstname && $acc->pi_lastname){
-                  $name = $acc->pi_firstname.(($acc->pi_middlename) ? ' '.$acc->pi_middlename[0].'. ' : ' ').$acc->pi_lastname;
-                }
-                else{
-                  $name = null;
-                }
-              @endphp
               <div class="col-12 mb-3">
                 <label for="" class="form-label">Patient Name</label>
                 <input type="text" class="form-control" id="er_modal-medical_request_slip-form-patient_name" name="patient_name" value="">
@@ -52,7 +44,7 @@
               <label for="" class="form-label">Sex</label>
               <select class="form-select" id="er_modal-medical_request_slip-form-sex" name="sex">
                 <option value="">--- choose ---</option>
-                  @foreach(['female', 'male'] as $sex)
+                  @foreach($sexes as $sex)
                     <option value="{{ $sex }}">
                         {{ ucwords($sex) }}
                     </option>
@@ -130,42 +122,55 @@
 </div>
 
 <script>
-  function delete_form_medical_request_slip(btn_id){
+  function delete_form_medical_request_slip(btn_id, id){
     var btn_id = '#'+btn_id;
     var btn_val = $(btn_id).val();
     var url = "{{ route('Admin.ElectronicRecords.MedicalRequestSlip.Delete', ['mrs_id' => '%mrs_id%']) }}".replace('%mrs_id%', btn_val);
-    load_btn(btn_id, true);
     
-    $.ajax({
-      type: "POST",
-      url: url,
-      data : {
-        '_token': '{{ csrf_token() }}',
-        '_method': 'DELETE'
-      },
-      enctype: 'multipart/form-data',
-      success: function(response){
-        response = JSON.parse(response);
-        console.log(response);
-        toast(response.title, response.message, response.icon);
-        if(response.status == 200){
-          table.ajax.reload(null, false); // reset the table record
-        }
-      },
-      error: function(response){
-        console.log(response);
+    swal({
+        title: "Are you sure?",
+        text: `Delete Medical Request Slip ${id}?`,
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        load_btn(btn_id, true);
+
+        $.ajax({
+          type: "POST",
+          url: url,
+          data : {
+            '_token': '{{ csrf_token() }}',
+            '_method': 'DELETE'
+          },
+          enctype: 'multipart/form-data',
+          success: function(response){
+            response = JSON.parse(response);
+            console.log(response);
+            toast(response.title, response.message, response.icon);
+            if(response.status == 200){
+              table.ajax.reload(null, false); // reset the table record
+            }
+          },
+          error: function(response){
+            console.log(response);
+          }
+        }).always(function(){
+            load_btn(btn_id, false);
+        });
       }
-    }).always(function(){
-        load_btn(btn_id, false);
     });
   }
 
-  function update_form_medical_request_slip(btn_id){
+  function update_form_medical_request_slip(btn_id, id){
     var btn_id = '#'+btn_id;
     var btn_val = $(btn_id).val();
     
     var form = '#er_modal-medical_request_slip-form';
     var url = "{{ route('Admin.ElectronicRecords.MedicalRequestSlip.Details', ['mrs_id' => '%mrs_id%']) }}".replace('%mrs_id%', btn_val);
+    
+    $('#er_modal-medical_request_slip-id').html(`#${id}`);
 
     reset_input_errors(form);
     load_btn(btn_id, true);
@@ -227,21 +232,12 @@
   }
 
   function reset_form_medical_request_slip(){
-    @php 
-      //session variable
-      $first_name = ucwords(\Crypt::decrypt(Session::get('hsp_user_data')['first_name']));
-      $middle_name = ucwords(\Crypt::decrypt(Session::get('hsp_user_data')['middle_name'])); 
-      $last_name = ucwords(\Crypt::decrypt(Session::get('hsp_user_data')['last_name'])); 
-
-      // variable in account details blade
-      $birthdate = $acc->pi_birthdate; 
-      $today = date('Y-m-d');
-      $age = date_diff(date_create($birthdate), date_create($today))->format('%y');
-    @endphp 
+    // remove id field
+    $('#er_modal-medical_request_slip-id').html('');
 
     var data = new Object();
     // variable from account details blade
-    data['patient_name'] = "{{ ($acc->pi_firstname.(' '.$acc->pi_middlename.' ' ?: ' ').$acc->pi_lastname) ?: '' }}"; 
+    data['patient_name'] = "{{ $name }}"; 
     data['sex'] = "{{ $acc->pi_sex }}"; // from account details blade
 
     // comes from above php code
