@@ -16,13 +16,16 @@ return new class extends Migration
         Schema::create('document_type', function (Blueprint $table) {
             $table->id('dt_id');
             $table->string('dt_display_name');
-            $table->string('dt_table_name');
         });
 
         DB::table('document_type')->insert([
             [
-                'dt_display_name' => 'medical certificate', 
-                'dt_table_name' => 'er_med_cert' 
+                'dt_id' => 1,
+                'dt_display_name' => 'medical request slip'
+            ],
+            [
+                'dt_id' => 2,
+                'dt_display_name' => 'dental certificate'
             ]
         ]);
     }

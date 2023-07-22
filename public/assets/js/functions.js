@@ -93,13 +93,13 @@ function un_lock_field(element){
     else{
         if (((new Date().getTime()) - touch_time) < 500) {
             touch_time = 0;
-            if(element.siblings('input, select').attr('disabled') || element.siblings().find('input').attr('disabled')){
-                element.siblings('input, select').attr('disabled', false);
-                element.siblings().find('input, select').attr('disabled', false);
+            if(element.siblings('input, select, textarea').attr('disabled') || element.siblings().find('input').attr('disabled')){
+                element.siblings('input, select, textarea').attr('disabled', false);
+                element.siblings().find('input, select, textarea').attr('disabled', false);
             }
             else{
-                element.siblings('input, select').attr('disabled', '');
-                element.siblings().find('input, select').attr('disabled', '');
+                element.siblings('input, select, textarea').attr('disabled', '');
+                element.siblings().find('input, select, textarea').attr('disabled', '');
             } 
         } else {
             touch_time = new Date().getTime();
@@ -110,7 +110,7 @@ function un_lock_field(element){
 function disable_if_not_empty(element, disable_all=false){
     if(disable_all == false){
         var prev_checkbox_class = "";
-        $(element).find('input, select').each(function(){
+        $(element).find('input, select, textarea').each(function(){
             // if the input is checkbox
             if($(this).is(':checkbox')){
                 // if secondary class is not equals to last class or if the checkbox is checked
@@ -132,7 +132,7 @@ function disable_if_not_empty(element, disable_all=false){
         });
     }
     else{
-        $(element).find('input, select').each(function(){
+        $(element).find('input, select, textarea').each(function(){
             $(this).attr('disabled', true);
         });
     }
@@ -277,7 +277,7 @@ function leftPad(number, targetLength) {
 function form_to_json(element){
     var data = new Object();
 
-    $(element).find('input, select').each(function(){
+    $(element).find('input, select, textarea').each(function(){
         // if the input is checkbox and is checked or the input is not check box but has value
         if(($(this).is(':checkbox') && $(this).is(':checked')) || (!$(this).is(':checkbox') && $(this).val() != '')){
             // if the attr name is already in data array, combine data

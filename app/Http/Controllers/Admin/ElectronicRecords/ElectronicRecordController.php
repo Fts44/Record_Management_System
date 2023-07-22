@@ -47,20 +47,43 @@ class ElectronicRecordController extends Controller
             if($rec->dt_id=='1'){
                 $view = "<button type='button' class='btn btn-secondary btn-sm er_modal-view' 
                         id='medical_request_slip-view-".$doc_id."' 
+                        onclick='pdfviewer(1)'
                         value='".$doc_id."'>
                             <label><i class='bi bi-search'></i> View</label>
                         </button>";
 
                 $edit = "<button type='button' class='btn btn-primary btn-sm' 
                         id='medical_request_slip-edit-".$doc_id."' 
-                        onclick='".'update_form_medical_request_slip("medical_request_slip-edit-'.$doc_id.'")'."' 
+                        onclick='".'update_form_medical_request_slip("medical_request_slip-edit-'.$doc_id.'", "'.$rows['er_id'].'")'."' 
                         value='".$doc_id."'>
                             <label><i class='bi bi-pencil-square'></i> Edit</label>
                         </button>";
 
                 $delete = "<button type='button' class='btn btn-danger btn-sm medical_request_slip-delete' 
                         id='medical_request_slip-delete-".$doc_id."' 
-                        onclick='".'delete_form_medical_request_slip("medical_request_slip-delete-'.$doc_id.'")'."' 
+                        onclick='".'delete_form_medical_request_slip("medical_request_slip-delete-'.$doc_id.'", "'.$rows['er_id'].'")'."' 
+                        value='".$doc_id."'>
+                            <label><i class='bi bi-trash'></i> Delete</label>
+                        </button>";
+            }
+            else if($rec->dt_id=='2'){
+                $view = "<button type='button' class='btn btn-secondary btn-sm er_modal-view' 
+                        id='dental_certificate-view-".$doc_id."' 
+                        onclick='pdfviewer(1)'
+                        value='".$doc_id."'>
+                            <label><i class='bi bi-search'></i> View</label>
+                        </button>";
+
+                $edit = "<button type='button' class='btn btn-primary btn-sm' 
+                        id='dental_certificate-edit-".$doc_id."' 
+                        onclick='".'update_form_dental_certificate("dental_certificate-edit-'.$doc_id.'", "'.$rows['er_id'].'")'."' 
+                        value='".$doc_id."'>
+                            <label><i class='bi bi-pencil-square'></i> Edit</label>
+                        </button>";
+
+                $delete = "<button type='button' class='btn btn-danger btn-sm dental_certificate-delete' 
+                        id='dental_certificate-delete-".$doc_id."' 
+                        onclick='".'delete_form_dental_certificate("dental_certificate-delete-'.$doc_id.'", "'.$rows['er_id'].'")'."' 
                         value='".$doc_id."'>
                             <label><i class='bi bi-trash'></i> Delete</label>
                         </button>";
@@ -79,7 +102,5 @@ class ElectronicRecordController extends Controller
 
     public function delete(Request $request){
         $er_id = Crypt::decrypt($request->er_id);
-
-
     }
 }
