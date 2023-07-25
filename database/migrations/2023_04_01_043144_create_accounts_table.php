@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('acc_token');
             $table->date('acc_token_last_send')->nullable();
             $table->dateTime('acc_token_expr')->nullable();
-            $table->date('acc_info_last_update')->nullable();
+            $table->dateTime('acc_info_last_update')->nullable();
             $table->string('acc_type');
         });
     }
