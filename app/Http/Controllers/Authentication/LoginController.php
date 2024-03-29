@@ -56,7 +56,6 @@ class LoginController extends Controller
 
             if($acc){
 
-
                 if(Hash::check($request->password, $acc->acc_password)){
 
                     if($acc->acc_is_verified){
@@ -135,6 +134,6 @@ class LoginController extends Controller
         }
 
         $response = json_encode($response, true);
-        echo $response;
+        return $response;
     }
 }

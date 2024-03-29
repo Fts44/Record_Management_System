@@ -33,8 +33,9 @@ Route::name('Authentication.')->prefix('/')->middleware([])->group(function(){
 
 use App\Http\Controllers\PopulateSelectController;
 
-Route::prefix('/test')->group(function(){
+Route::name('test')->prefix('/test')->group(function(){
     Route::get('/', [PopulateSelectController::class, 'provinces']);
+    Route::get('/testPDF', [PopulateSelectController::class, 'pdf']);
 });
 
 Route::name('Populate.')->prefix('/populate')->middleware([])->group(function(){
@@ -45,7 +46,6 @@ Route::name('Populate.')->prefix('/populate')->middleware([])->group(function(){
     Route::get('/departments/{grade_level}/{selected_id}/{is_select_element}', [PopulateSelectController::class, 'departments'])->name('Populate.Departments');
     Route::get('/programs/{dept_id}/{selected_id}/{is_select_element}', [PopulateSelectController::class, 'programs'])->name('Populate.Programs');
 });
-
 
 use App\Http\Controllers\Patient\ProfileController;
 use App\Http\Controllers\Patient\EmergencyContactController;
@@ -61,8 +61,9 @@ use App\Http\Controllers\Admin\ElectronicRecords\ElectronicRecordController;
 use App\Http\Controllers\Admin\ElectronicRecords\MedicalRequestSlipController;
 use App\Http\Controllers\Admin\ElectronicRecords\DentalCertificateController;
 
-Route::prefix('/main')->middleware([])->group(function(){
+Route::prefix('/main')->middleware(['IsLoggedIn'])->group(function(){
     Route::name('Patient.')->prefix('/patient')->group(function(){
+
         Route::name('Profile.')->prefix('/profile')->group(function(){
             Route::get('/', [ProfileController::class, 'index'])->name('Index');
             Route::put('/update-basic-information', [ProfileController::class, 'update_personal_information'])->name('PersonalInformation.Update');
