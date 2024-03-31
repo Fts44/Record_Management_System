@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Accounts;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\PopulateSelectController;
 
 use App\Models\Accounts;
 use App\Models\PersonalInformation;
@@ -47,14 +48,26 @@ class AccountDetailsController extends Controller
     }
 
     public function index(Request $request){
+        
+        $this->PopulateSelect = new PopulateSelectController;
+
         $acc = $this->get_user_data(Crypt::decrypt($request->acc_id));
-  
+        $departments = $this->PopulateSelect->departments(($acc->pi_position=='student') ? $acc->pi_grade_level : 'all', $acc->dept_id, true);
+        $programs = $this->PopulateSelect->programs($acc->dept_id, $acc->prog_id, true);
+
         // $pdf = PDF::loadView('Forms.MedicalRequestSlip', compact('acc'));
         // $pdf->set_option('isHtml5ParserEnabled', true);
         // $pdf->set_paper(array(0, 0, 612.00, 792.00), 'portrait');
         // return $pdf->stream();
 
         // return view('Forms.MedicalRequestSlip', compact('acc'));
-        return view('Main.Admin.Accounts.AccountDetails', compact('acc'));
+        
+        
+        return view('Main.Admin.Accounts.AccountDetails')
+            ->with([
+                'acc' => $acc,
+                'departments' => $departments,
+                'programs' => $programs
+            ]);
     }
 }

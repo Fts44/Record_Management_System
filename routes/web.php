@@ -35,7 +35,7 @@ use App\Http\Controllers\PopulateSelectController;
 
 Route::name('test')->prefix('/test')->group(function(){
     Route::get('/', [PopulateSelectController::class, 'provinces']);
-    Route::get('/testPDF', [PopulateSelectController::class, 'pdf']);
+    Route::get('/pdf', [PopulateSelectController::class, 'pdf']);
 });
 
 Route::name('Populate.')->prefix('/populate')->middleware([])->group(function(){
@@ -60,6 +60,9 @@ use App\Http\Controllers\Admin\Accounts\AccountDetailsController;
 use App\Http\Controllers\Admin\ElectronicRecords\ElectronicRecordController;
 use App\Http\Controllers\Admin\ElectronicRecords\MedicalRequestSlipController;
 use App\Http\Controllers\Admin\ElectronicRecords\DentalCertificateController;
+use App\Http\Controllers\Admin\ElectronicRecords\ExcuseSlipController;
+use App\Http\Controllers\Admin\ElectronicRecords\MedicalCertificateController;
+use App\Http\Controllers\Admin\ElectronicRecords\MedicalReferralController;
 
 Route::prefix('/main')->middleware(['IsLoggedIn'])->group(function(){
     Route::name('Patient.')->prefix('/patient')->group(function(){
@@ -138,6 +141,27 @@ Route::prefix('/main')->middleware(['IsLoggedIn'])->group(function(){
                 Route::post('/details/{dc_id}', [DentalCertificateController::class, 'details'])->name('Details');
                 Route::put('/details/update/{dc_id}', [DentalCertificateController::class, 'update'])->name('Update');
                 Route::delete('/details/delete/{dc_id}', [DentalCertificateController::class, 'delete'])->name('Delete');
+            });
+
+            Route::name('ExcuseSlip.')->prefix('/excuse-slip')->group(function(){
+                Route::post('/{acc_id}', [ExcuseSlipController::class, 'create'])->name('Create');
+                Route::post('/details/{es_id}', [ExcuseSlipController::class, 'details'])->name('Details');
+                Route::put('/details/update/{es_id}', [ExcuseSlipController::class, 'update'])->name('Update');
+                Route::delete('/details/delete/{es_id}', [ExcuseSlipController::class, 'delete'])->name('Delete');
+            });
+
+            Route::name('MedicalCertificate.')->prefix('/medical-certificate')->group(function(){
+                Route::post('/{acc_id}', [MedicalCertificateController::class, 'create'])->name('Create');
+                Route::post('/details/{mc_id}', [MedicalCertificateController::class, 'details'])->name('Details');
+                Route::put('/details/update/{mc_id}', [MedicalCertificateController::class, 'update'])->name('Update');
+                Route::delete('/details/delete/{mc_id}', [MedicalCertificateController::class, 'delete'])->name('Delete');
+            });
+
+            Route::name('MedicalReferral.')->prefix('/medical-referral')->group(function(){
+                Route::post('/{acc_id}', [MedicalReferralController::class, 'create'])->name('Create');
+                Route::post('/details/{mr_id}', [MedicalReferralController::class, 'details'])->name('Details');
+                Route::put('/details/update/{mr_id}', [MedicalReferralController::class, 'update'])->name('Update');
+                Route::delete('/details/delete/{mr_id}', [MedicalReferralController::class, 'delete'])->name('Delete');
             });
         });
 

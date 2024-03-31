@@ -79,6 +79,7 @@ class ProfileController extends Controller
 
     public function update_personal_information(Request $request){
         $old_profile_picture = Crypt::decrypt(Session::get('hsp_user_data')['profile_picture']);
+        $acc_id = Crypt::decrypt(Session::get('hsp_user_data')['acc_id']);
 
         $rules = [
             'profile_picture' => ($old_profile_picture) ? 'nullable' : 'required',
@@ -92,7 +93,7 @@ class ProfileController extends Controller
             'sex' => ['required', 'in:female,male'],
             'civil_status' => ['required', 'in:single,married,separated,widowed'],
             'religion' => 'required',
-            'contact_number' => ['required', 'unique:personal_information,pi_contact_no'],
+            'contact_number' => ['required', 'unique:personal_information,pi_contact_no,'.$acc_id.',acc_id'],
             'position' => ['required', 'in:student,teacher,school personnel'],
             'province' => 'required',
             'city' => 'required',
@@ -125,7 +126,6 @@ class ProfileController extends Controller
         else{
             
             try{
-                $acc_id = Crypt::decrypt(Session::get('hsp_user_data')['acc_id']);
                 $acc = PersonalInformation::where('acc_id', $acc_id)->first();          
 
                 // add new address if empty new acc

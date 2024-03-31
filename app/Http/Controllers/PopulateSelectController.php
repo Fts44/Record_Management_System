@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use PDF;
+use Storage;
 
 class PopulateSelectController extends Controller
 {
@@ -160,5 +162,34 @@ class PopulateSelectController extends Controller
         }   
           
         return $result;
+    }
+
+    public function pdf(){  
+        $items = '';
+        $filename = 'Equipment_Inventory_Report_';
+        $year = '';
+
+        $pdf = PDF::loadView('Forms.MedicalRequestSlip', compact('items', 'year', 'filename'));
+        $pdf->setPaper('letter', 'portrait');
+        // $content = $pdf->download()->getOriginalContent();
+
+        // Storage::put('public/generated_documents/'.$filename.'.pdf', $content)
+        return $pdf->stream('temp.pdf');
+        // if(Storage::put('public/generated_documents/'.$filename.'.pdf', $content)){
+        //     $response = [
+        //         'status' => 200,
+        //         'filename' => $filename.'.pdf'
+        //     ];
+        // }
+        // else{
+        //     $response = [
+        //         'title' => 'Error!',
+        //         'message' => 'Unable to generate PDF, try again later.',
+        //         'icon' => 'error',
+        //         'status' => 400
+        //     ];
+        // }
+
+        // echo json_encode($response);
     }
 }

@@ -83,7 +83,7 @@
             });
 
             $('#table_blocked_refresh').click(function(){
-                table.ajax.reload( alert_show('success', 'Table data refresh!'), false);           
+                table.ajax.reload(toast('Success', 'Table data refresh!', 'success'), false);           
             });
         });
 

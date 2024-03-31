@@ -28478,6 +28478,7 @@ table tr td .btn{
 
 table img {
     height: 4rem;
+    width: 4rem;
 }
 
 /* table td:has(img){

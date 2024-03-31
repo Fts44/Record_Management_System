@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>test</title>
+    <title>Medical Request Slip</title>
 </head>
 <body>
     <style>
@@ -199,7 +199,7 @@
                                         {!! $title !!}
                                         <tr>
                                             <td colspan="12" class="p">
-                                                <div style="display: flex">
+                                                <div style="display: block; word-wrap: break-word;">
                                                     Name:_____________________________
                                                 </div>
                                             </td>
@@ -246,7 +246,5 @@
             @endfor
         </tfoot>
     </table>
-
-   
 </body>
 </html>

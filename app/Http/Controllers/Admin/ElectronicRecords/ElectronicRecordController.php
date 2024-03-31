@@ -88,7 +88,73 @@ class ElectronicRecordController extends Controller
                             <label><i class='bi bi-trash'></i> Delete</label>
                         </button>";
             }
-           
+            else if($rec->dt_id=='3'){
+                $view = "<button type='button' class='btn btn-secondary btn-sm er_modal-view' 
+                        id='excuse_slip-view-".$doc_id."' 
+                        onclick='pdfviewer(1)'
+                        value='".$doc_id."'>
+                            <label><i class='bi bi-search'></i> View</label>
+                        </button>";
+
+                $edit = "<button type='button' class='btn btn-primary btn-sm' 
+                        id='excuse_slip-edit-".$doc_id."' 
+                        onclick='".'update_form_excuse_slip("excuse_slip-edit-'.$doc_id.'", "'.$rows['er_id'].'")'."' 
+                        value='".$doc_id."'>
+                            <label><i class='bi bi-pencil-square'></i> Edit</label>
+                        </button>";
+
+                $delete = "<button type='button' class='btn btn-danger btn-sm excuse_slip-delete' 
+                        id='excuse_slip-delete-".$doc_id."' 
+                        onclick='".'delete_form_excuse_slip("excuse_slip-delete-'.$doc_id.'", "'.$rows['er_id'].'")'."' 
+                        value='".$doc_id."'>
+                            <label><i class='bi bi-trash'></i> Delete</label>
+                        </button>";
+            }
+            else if($rec->dt_id=='4'){
+                $view = "<button type='button' class='btn btn-secondary btn-sm er_modal-view' 
+                        id='medical_certificate-view-".$doc_id."' 
+                        onclick='pdfviewer(1)'
+                        value='".$doc_id."'>
+                            <label><i class='bi bi-search'></i> View</label>
+                        </button>";
+
+                $edit = "<button type='button' class='btn btn-primary btn-sm' 
+                        id='medical_certificate-edit-".$doc_id."' 
+                        onclick='".'update_form_medical_certificate("medical_certificate-edit-'.$doc_id.'", "'.$rows['er_id'].'")'."' 
+                        value='".$doc_id."'>
+                            <label><i class='bi bi-pencil-square'></i> Edit</label>
+                        </button>";
+
+                $delete = "<button type='button' class='btn btn-danger btn-sm medical_certificate-delete' 
+                        id='medical_certificate-delete-".$doc_id."' 
+                        onclick='".'delete_form_medical_certificate("medical_certificate-delete-'.$doc_id.'", "'.$rows['er_id'].'")'."' 
+                        value='".$doc_id."'>
+                            <label><i class='bi bi-trash'></i> Delete</label>
+                        </button>";
+            }
+            else if($rec->dt_id=='5'){
+                $view = "<button type='button' class='btn btn-secondary btn-sm er_modal-view' 
+                        id='medical_referral-view-".$doc_id."' 
+                        onclick='pdfviewer(1)'
+                        value='".$doc_id."'>
+                            <label><i class='bi bi-search'></i> View</label>
+                        </button>";
+
+                $edit = "<button type='button' class='btn btn-primary btn-sm' 
+                        id='medical_referral-edit-".$doc_id."' 
+                        onclick='".'update_form_medical_referral("medical_referral-edit-'.$doc_id.'", "'.$rows['er_id'].'")'."' 
+                        value='".$doc_id."'>
+                            <label><i class='bi bi-pencil-square'></i> Edit</label>
+                        </button>";
+
+                $delete = "<button type='button' class='btn btn-danger btn-sm medical_referral-delete' 
+                        id='medical_referral-delete-".$doc_id."' 
+                        onclick='".'delete_form_medical_referral("medical_referral-delete-'.$doc_id.'", "'.$rows['er_id'].'")'."' 
+                        value='".$doc_id."'>
+                            <label><i class='bi bi-trash'></i> Delete</label>
+                        </button>";
+            }
+
             $rows['action'] = $view." ".$edit." ".$delete;
             $records[] = $rows;
         }

@@ -198,9 +198,9 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="btn_create_new" id="create_new_dropdown">
                                 <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#er_modal-dental_certificate" id="create_new-dental_certificate">Dental Certificate</a></li>
-                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#er_modal-" id="">Excuse Slip</a></li>
-                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#er_modal-" id="">Medical Certificate</a></li>
-                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#er_modal-" id="">Medical Referral</a></li>
+                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#er_modal-excuse_slip" id="create_new-excuse_slip">Excuse Slip</a></li>
+                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#er_modal-medical_certificate" id="create_new-medical_certificate">Medical Certificate</a></li>
+                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#er_modal-medical_referral" id="create_new-medical_referral">Medical Referral</a></li>
                                 <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#er_modal-medical_request_slip" id="create_new-medical_request_slip">Medical Request Slip</a></li>
                             </ul>
                         </div>
@@ -276,7 +276,11 @@
         $age = ($acc->pi_birthdate) ? date_diff(date_create($birthdate), date_create($today))->format('%y') : '';
         $address = ($acc->add_id) ? ($acc->brgy_name.','.$acc->mun_name.','.$acc->prov_name) : '';
     @endphp 
+
     @include('Components.Admin.ERModal.MedicalRequestSlip')
     @include('Components.Admin.ERModal.DentalCertificate')
+    @include('Components.Admin.ERModal.ExcuseSlip')
+    @include('Components.Admin.ERModal.MedicalCertificate')
+    @include('Components.Admin.ERModal.MedicalReferral')
     @include('Components.Admin.ERModal.PDFViewer')
 @endpush

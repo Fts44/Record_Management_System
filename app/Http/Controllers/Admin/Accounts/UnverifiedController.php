@@ -16,7 +16,7 @@ class UnverifiedController extends Controller
         $accounts = Accounts::from('accounts as acc')
             ->join('personal_information as pi', 'acc.acc_id', 'pi.acc_id')
             ->where('acc.acc_is_verified', 0)
-            ->orWhere('acc.acc_email_verified', 0)
+            // ->orWhere('acc.acc_email_verified', 0)
             ->where('acc.acc_is_blocked', 0)
             ->select('acc.acc_id', 'pi.pi_personal_email', 'pi.pi_classification', 'pi.pi_position', 'acc.acc_created_date')
             ->get();

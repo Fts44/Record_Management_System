@@ -26,6 +26,18 @@ return new class extends Migration
             [
                 'dt_id' => 2,
                 'dt_display_name' => 'dental certificate'
+            ],
+            [
+                'dt_id' => 3,
+                'dt_display_name' => 'excuse slip'
+            ],
+            [
+                'dt_id' => 4,
+                'dt_display_name' => 'medical certificate'
+            ],
+            [
+                'dt_id' => 5,
+                'dt_display_name' => 'medical referral'
             ]
         ]);
     }

@@ -11,7 +11,7 @@
         </div>
 
         <div class="modal-body">
-            <object  id="embed_pdf_viewer" data="{{ asset('storage/generated_pdfs/PhilHealth - JsEC.pdf') }}" type="application/pdf" width="100%" height="500px"></object>
+            <object id="embed_pdf_viewer" data="{{ asset('storage/generated_pdfs/AIMS-Cert-Grammarian.pdf') }}" type="application/pdf" width="100%" height="500px"></object>
         </div>
         
         <div class="modal-footer">
@@ -23,7 +23,7 @@
 
 <script>
     function pdfviewer(id, url){
-        // $('#er_modal_label-pdfviewer').html(id);
+        $('#er_modal_label-pdfviewer').html(id);
         $('#er_modal-pdfviewer').modal('show');
     }
 </script>
