@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 
 use App\Models\ElectronicRecord;
 use App\Models\ER_MedicalRequestSlip;
+use PDF;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Crypt;
@@ -211,5 +212,17 @@ class MedicalRequestSlipController extends Controller
         }
 
         echo json_encode($response);
+    }
+
+    public function print($mrs_id){
+
+        $mrs_id = Crypt::decrypt($mrs_id);
+        $data = ER_MedicalRequestSlip::where('mrs_id', $mrs_id)->first();
+
+        $pdf = PDF::loadView('Forms.MedicalRequestSlip', compact('data'));
+        $pdf->setPaper('letter', 'portrait');
+        return $pdf->stream('temp.pdf');
+
+        // echo json_encode($data);
     }
 }

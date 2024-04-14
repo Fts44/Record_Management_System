@@ -261,6 +261,22 @@
     set_data_medical_request_slip(data, url);
     console.log(data);
   }
+
+  function view_form_medical_request_slip(btn_id, id){
+    var btn_id = '#'+btn_id;
+    var btn_val = $(btn_id).val();
+    var url = "{{ route('Admin.ElectronicRecords.MedicalRequestSlip.Print', ['mrs_id' => '%mrs_id%']) }}".replace('%mrs_id%', btn_val);
+    
+    // $('#embed_pdf_viewer').data = url;
+    // $('#er_modal-pdfviewer').modal('show');
+
+    let left = (screen.width);
+    let top = (screen.height);
+    let myWindow = window.open(url, btn_id,
+        'resizable=yes, width=1000'
+        + ', height=650, top='
+        + top + ', left=' + left);
+  }
     
   $(document).ready(function () {
     // if form-label is clicked

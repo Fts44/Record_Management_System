@@ -7,6 +7,8 @@ use DB;
 use PDF;
 use Storage;
 
+use App\Models\ER_MedicalRequestSlip;
+
 class PopulateSelectController extends Controller
 {
     public function provinces($reg_id="all", $selected_id, $is_select_element=true){
@@ -165,11 +167,9 @@ class PopulateSelectController extends Controller
     }
 
     public function pdf(){  
-        $items = '';
-        $filename = 'Equipment_Inventory_Report_';
-        $year = '';
+        $data = ER_MedicalRequestSlip::where('mrs_id', '7')->first();
 
-        $pdf = PDF::loadView('Forms.MedicalRequestSlip', compact('items', 'year', 'filename'));
+        $pdf = PDF::loadView('Forms.MedicalRequestSlip', compact('data'));
         $pdf->setPaper('letter', 'portrait');
         // $content = $pdf->download()->getOriginalContent();
 

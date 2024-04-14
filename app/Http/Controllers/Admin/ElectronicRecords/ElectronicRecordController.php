@@ -29,13 +29,14 @@ class ElectronicRecordController extends Controller
         foreach($electronic_record as $rec){
             $rows = array();
             $rows['er_id'] = 'ER-'.sprintf("%05d",$rec->er_id);
+            $rows['er_control_no'] = ($rec->er_control_no) ? $rec->er_control_no : 'Not Set';
             $rows['er_dt_name'] = ucwords($rec->dt_display_name);
 
             if($rec->phy_firstname){
                 $rows['er_physician'] = ucwords($rec->phy_firstname.' '.($rec->phy_middlename ?: '').' '.$rec->phy_lastname);
             }
             else{
-                $rows['er_physician'] = ucwords("Not set");
+                $rows['er_physician'] = ucwords("Not Set");
             }
             
             $rows['er_created_date'] = ($rec->er_created_date) ? date_format(date_create($rec->er_created_date), 'M d, Y h:i a') : 'Not Set';
@@ -47,7 +48,7 @@ class ElectronicRecordController extends Controller
             if($rec->dt_id=='1'){
                 $view = "<button type='button' class='btn btn-secondary btn-sm er_modal-view' 
                         id='medical_request_slip-view-".$doc_id."' 
-                        onclick='pdfviewer(1)'
+                        onclick='".'view_form_medical_request_slip("medical_request_slip-view-'.$doc_id.'", "'.$rows['er_id'].'")'."'
                         value='".$doc_id."'>
                             <label><i class='bi bi-search'></i> View</label>
                         </button>";
@@ -168,5 +169,9 @@ class ElectronicRecordController extends Controller
 
     public function delete(Request $request){
         $er_id = Crypt::decrypt($request->er_id);
+    }
+
+    public function print(Request $request){
+        
     }
 }

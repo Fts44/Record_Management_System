@@ -35,7 +35,7 @@ use App\Http\Controllers\PopulateSelectController;
 
 Route::name('test')->prefix('/test')->group(function(){
     Route::get('/', [PopulateSelectController::class, 'provinces']);
-    Route::get('/pdf', [PopulateSelectController::class, 'pdf']);
+    Route::get('/pdf', [PopulateSelectController::class, 'pdf'])->name('test.pdf');
 });
 
 Route::name('Populate.')->prefix('/populate')->middleware([])->group(function(){
@@ -129,11 +129,15 @@ Route::prefix('/main')->middleware(['IsLoggedIn'])->group(function(){
         });
 
         Route::name('ElectronicRecords.')->prefix('/electronic-records')->group(function(){
+            
+
+
             Route::name('MedicalRequestSlip.')->prefix('/medical-request-slip')->group(function(){
                 Route::post('/{acc_id}', [MedicalRequestSlipController::class, 'create'])->name('Create');
                 Route::post('/details/{mrs_id}', [MedicalRequestSlipController::class, 'details'])->name('Details');
                 Route::put('/details/update/{mrs_id}', [MedicalRequestSlipController::class, 'update'])->name('Update');
                 Route::delete('/details/delete/{mrs_id}', [MedicalRequestSlipController::class, 'delete'])->name('Delete');
+                Route::get('print/{mrs_id}', [MedicalRequestSlipController::class, 'print'])->name('Print');
             });
 
             Route::name('DentalCertificate.')->prefix('/dental-certificate')->group(function(){

@@ -18,14 +18,13 @@ class IsLoggedIn
     public function handle(Request $request, Closure $next)
     {
 
-        if(!Session::has('hsp_user_data')){
-            // return redirect()->route(Session::get('default_route'));
-            return redirect()->route('Authentication.Login.Index');
-        }
-        else{
-            // check password and username if correct
-
-        }
+        // if(!Session::has('hsp_user_data')){
+        //     // return redirect()->route(Session::get('default_route'));
+        //     return redirect()->route('Authentication.Login.Index');
+        // }
+        // else{
+        //     // check password and username if correct
+        // }
 
         return $next($request);
     }

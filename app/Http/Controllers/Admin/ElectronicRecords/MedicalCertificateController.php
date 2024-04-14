@@ -167,7 +167,7 @@ class MedicalCertificateController extends Controller
 
                 $er->er_control_no = $request->control_no;
                 $er->er_doc_last_update = Carbon::now();
-                // $er->save();    
+                $er->save();    
             }   
 
             $response = [

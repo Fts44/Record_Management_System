@@ -210,6 +210,7 @@
                         <table id="table_record" class="table table-responsive" style="width: 100%;">
                             <thead class="table-light">
                                 <th scope="col">ID</th>
+                                <th scope="col">Control No</th>
                                 <th scope="col">Type</th>
                                 <th scope="col">Physician</th>
                                 <th scope="col">Created Date</th>
@@ -236,10 +237,12 @@
                     dataSrc: "data",
                 },
                 order: [[0, 'desc']],
+                "lengthMenu": [50, 75, 100],
                 responsive: true,
                 scrollX: true,
                 columns: [
                     { data: 'er_id' },
+                    { data: 'er_control_no' },
                     { data: 'er_dt_name' },
                     { data: 'er_physician' },
                     { data: 'er_created_date' },
@@ -277,6 +280,7 @@
         $address = ($acc->add_id) ? ($acc->brgy_name.','.$acc->mun_name.','.$acc->prov_name) : '';
     @endphp 
 
+    
     @include('Components.Admin.ERModal.MedicalRequestSlip')
     @include('Components.Admin.ERModal.DentalCertificate')
     @include('Components.Admin.ERModal.ExcuseSlip')

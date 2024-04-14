@@ -131,19 +131,18 @@
         }
 
         .underline {
-            /* text-decoration: underline;
-            word-wrap: normal; */
-            border-bottom: 1px solid black;
+            text-decoration: underline;
+            word-wrap: normal;
         }
 
-        span {
-            white-space:pre;
+        .underline {
+            border-bottom: 1px solid;
         }
     </style>
 
     @php 
         $col = 2;
-        $row = 6;
+        $row = 3;
 
         $header =  '<tr class="header">
                         <td colspan="3" class="text-center">
@@ -174,27 +173,17 @@
                     </td>
                 </tr>
                 ';
-
-
-        function addSpace($word, $count){
-            $diff = strlen($word) - $count;
-            $finalWord = $word;
-
-            if($diff < 0){
-                for($i= 0; $i<=($diff*-1); $i++){
-                    $finalWord = $finalWord . ' ';
-                }
-            }
-
-            return $finalWord;
-        } 
     @endphp
     <table class="container">
         <thead>
-            <th class="nb"></th>
+            @for($i=1; $i<=$col; $i++)
+                <th class="nb"></th>
+            @endfor
         </thead>
         <tbody>
+            @for($r=1; $r<=$row; $r++)
                 <tr>
+                    @for($c=1; $c<=$col; $c++)
                         <td class="card">
                             <div class="item">
                                 <table class="item-table">
@@ -211,46 +200,50 @@
                                         <tr>
                                             <td colspan="12" class="p">
                                                 <div style="display: block; word-wrap: break-word;">
-                                                    Name: <span class="underline">{{ addSpace($data->mrs_patient_name, 30) }}</span> 
+                                                    Name:_____________________________
                                                 </div>
                                             </td>
                                             <td colspan="8" class="p">
-                                                Date: <span class="underline">{{ addSpace(date_format(date_create($data->mrs_date), "F d, Y"), 17) }}</span>
+                                                Date:_________________
                                             </td>
                                         </tr>
                                         <tr>
                                             <td colspan="12" class="p">
-                                                Age: <span class="underline">{{ addSpace($data->mrs_age, 30) }}</span> 
+                                                Age:__________________
                                             </td>
                                             <td colspan="8" class="p">
-                                                Sex: <span class="underline">{{ addSpace(ucwords($data->mrs_sex), 20) }}</span> 
+                                                Sex: _________________
                                             </td>
                                         </tr>
                                         <tr>
                                             <td colspan="20" class="p">
-                                                Requested by: <span class="underline">{{ addSpace(ucwords($data->mrs_requested_by), 45) }}</span> 
+                                                Requested by: _____________________________________________
                                             </td>
                                         </tr>
                                         <tr>
                                             <td colspan="3" class="pt"></td>
                                             <td colspan="17" class="pt">
-                                                <input type="checkbox" {{ ($data->mrs_chest_xray) ? 'checked' : '' }}> Chest X-ray <br>
-                                                <input type="checkbox" {{ ($data->mrs_cbc) ? 'checked' : '' }}> CBC <br>
-                                                <input type="checkbox" {{ ($data->mrs_urinalysis) ? 'checked' : '' }}> Urinalysis <br>
-                                                <input type="checkbox" {{ ($data->mrs_fecalysis) ? 'checked' : '' }}> Fecalysis <br>
-                                                <input type="checkbox" {{ ($data->mrs_drug_test) ? 'checked' : '' }}> Drug Test <br>
-                                                <input type="checkbox" {{ ($data->mrs_blood_typing) ? 'checked' : '' }}> Blood Typing <br>
-                                                Others: <span class="underline">{{ addSpace(ucwords($data->mrs_others), 75) }}</span> 
+                                                <input type="checkbox"> Chest X-ray <br>
+                                                <input type="checkbox"> CBC <br>
+                                                <input type="checkbox"> Urinalysis <br>
+                                                <input type="checkbox"> Fecalysis <br>
+                                                <input type="checkbox"> Drug Test <br>
+                                                <input type="checkbox"> Blood Typing <br>
+                                                <input type="checkbox"> Others:_______________________________________
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </td>
+                    @endfor
                 </tr>
+            @endfor
         </tbody>
         <tfoot>
+            @for($i=1; $i<=$col; $i++)
                 <th class="d-none"></th>
+            @endfor
         </tfoot>
     </table>
 </body>
